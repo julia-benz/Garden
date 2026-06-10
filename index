@@ -1,0 +1,2442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌱 Julia's Garden HQ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@400;500&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --soil: #3d2b1f;
+    --moss: #4a5e3a;
+    --sage: #7a9e6e;
+    --mint: #a8c89a;
+    --cream: #f5f0e8;
+    --petal: #e8d5b0;
+    --tomato: #c0392b;
+    --pepper: #e67e22;
+    --goth: #2c2c3e;
+    --goth-accent: #7c6f9e;
+    --turtle: #3d6b4f;
+    --parrot: #b8581d;
+    --sun: #f39c12;
+    --water: #5b9bd5;
+    --gold: #d4ac0d;
+    --shadow: rgba(0,0,0,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--soil);
+    background-image: 
+      radial-gradient(ellipse at 20% 0%, #5a3825 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, #2a1a10 0%, transparent 50%);
+    min-height: 100vh;
+    color: var(--cream);
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--moss) 0%, #2d3d22 100%);
+    border-bottom: 3px solid var(--sage);
+    padding: 20px 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--mint);
+    letter-spacing: 1px;
+  }
+  header p { color: var(--petal); font-size: 0.85rem; margin-top: 2px; }
+
+  .stats-bar {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px;
+  }
+  .stat-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    color: var(--mint);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    display: flex; gap: 0; overflow-x: auto;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 2px solid var(--moss);
+    padding: 0 16px;
+  }
+  .nav-tab {
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--petal);
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--mint); }
+  .nav-tab.active { color: var(--mint); border-bottom-color: var(--sage); }
+
+  /* ── MAIN CONTENT ── */
+  .main { padding: 20px 16px; max-width: 1100px; margin: 0 auto; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--mint);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── BED CARDS ── */
+  .bed-card {
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bed-turtle { background: linear-gradient(135deg, #1e3d2a, #2d5a3d); border: 2px solid #4a9e6e; }
+  .bed-parrot { background: linear-gradient(135deg, #3d2010, #5a3018); border: 2px solid var(--pepper); }
+  .bed-goth { background: linear-gradient(135deg, #1a1a2e, #2c2c45); border: 2px solid var(--goth-accent); }
+  .bed-herbs { background: linear-gradient(135deg, #2a3d1e, #3a5028); border: 2px solid var(--sage); }
+
+  .bed-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .badge-turtle { background: var(--turtle); color: #fff; }
+  .badge-parrot { background: var(--parrot); color: #fff; }
+  .badge-goth { background: var(--goth-accent); color: #fff; }
+  .badge-herbs { background: var(--moss); color: #fff; }
+
+  .bed-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+  }
+  .bed-subtitle { font-size: 0.8rem; opacity: 0.7; margin-bottom: 16px; }
+
+  /* ── BED DIAGRAM ── */
+  .bed-diagram {
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+    padding: 14px;
+    margin: 12px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .diagram-grid {
+    display: grid;
+    gap: 6px;
+    margin: 0 auto;
+  }
+  .plant-slot {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    aspect-ratio: 1;
+    position: relative;
+  }
+  .plant-slot:hover { transform: scale(1.15); z-index: 10; }
+  .plant-slot .tooltip {
+    display: none;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.9);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    z-index: 20;
+    pointer-events: none;
+  }
+  .plant-slot:hover .tooltip { display: block; }
+
+  .diagram-label {
+    font-size: 0.7rem;
+    color: var(--petal);
+    text-align: center;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── FERTILIZER CHECKLIST ── */
+  .fert-task {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: background 0.2s;
+  }
+  .fert-task.done { opacity: 0.5; }
+  .fert-task.done .task-text { text-decoration: line-through; }
+
+  .fert-task input[type=checkbox] {
+    width: 18px; height: 18px; accent-color: var(--sage);
+    flex-shrink: 0; margin-top: 2px; cursor: pointer;
+  }
+  .task-text { font-size: 0.85rem; line-height: 1.4; }
+  .task-meta {
+    font-size: 0.72rem;
+    color: var(--sage);
+    font-family: 'DM Mono', monospace;
+    margin-top: 2px;
+  }
+  .fert-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-left: 6px;
+  }
+  .fb-511 { background: #4a7c59; color: #fff; }
+  .fb-mg { background: #2874a6; color: #fff; }
+  .fb-tt { background: #922b21; color: #fff; }
+
+  /* ── SWITCH FERTILIZER CHECKBOX ── */
+  .switch-alert {
+    background: rgba(240, 180, 0, 0.15);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.83rem;
+  }
+  .switch-alert input[type=checkbox] { accent-color: var(--gold); width: 18px; height: 18px; }
+  .switch-alert.done { opacity: 0.5; }
+
+  /* ── SPROUTING / FRUITING TABLE ── */
+  .timeline-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+  .timeline-table th {
+    background: rgba(255,255,255,0.08);
+    padding: 8px 12px;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--sage);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .timeline-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    vertical-align: top;
+  }
+  .timeline-table tr:hover td { background: rgba(255,255,255,0.04); }
+  .date-chip {
+    background: rgba(90,155,213,0.2);
+    border: 1px solid rgba(90,155,213,0.4);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: #8ec6f0;
+  }
+
+  /* ── WATERING ── */
+  .water-card {
+    background: rgba(91,155,213,0.08);
+    border: 1px solid rgba(91,155,213,0.25);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .water-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #8ec6f0;
+    margin-bottom: 4px;
+  }
+  .water-detail { font-size: 0.8rem; color: var(--petal); }
+  .drip-badge {
+    display: inline-block;
+    background: rgba(91,155,213,0.2);
+    border: 1px solid rgba(91,155,213,0.4);
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    color: #8ec6f0;
+    font-family: 'DM Mono', monospace;
+    margin-left: 8px;
+  }
+
+  /* ── PLANTING LOG TABLE ── */
+  .log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+  }
+  .log-table th {
+    background: var(--moss);
+    padding: 8px 10px;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--mint);
+    white-space: nowrap;
+  }
+  .log-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    vertical-align: top;
+  }
+  .log-table tr:hover td { background: rgba(255,255,255,0.04); }
+  .log-table td input, .log-table td textarea {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    color: var(--cream);
+    padding: 4px 6px;
+    font-size: 0.75rem;
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+  }
+  .log-table td textarea { resize: vertical; min-height: 40px; }
+
+  /* ── ADD ROW BUTTON ── */
+  .btn {
+    background: var(--moss);
+    color: var(--mint);
+    border: 1px solid var(--sage);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Lato', sans-serif;
+  }
+  .btn:hover { background: var(--sage); color: var(--soil); }
+  .btn-sm { padding: 4px 10px; font-size: 0.72rem; }
+  .btn-danger { background: rgba(192,57,43,0.3); border-color: var(--tomato); color: #ff8a7a; }
+  .btn-danger:hover { background: var(--tomato); color: #fff; }
+
+  /* ── AI CHAT ── */
+  .chat-container {
+    background: rgba(0,0,0,0.25);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 12px;
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .chat-msg {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .chat-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .avatar-user { background: var(--moss); }
+  .avatar-ai { background: var(--goth-accent); }
+  .chat-bubble {
+    background: rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.83rem;
+    line-height: 1.5;
+    max-width: 85%;
+    flex: 1;
+  }
+  .chat-bubble.user { background: rgba(74,94,58,0.3); }
+  .chat-meta { font-size: 0.68rem; color: var(--sage); margin-top: 4px; font-family: 'DM Mono', monospace; }
+
+  .chat-input-row {
+    display: flex; gap: 8px; align-items: flex-end;
+  }
+  .chat-input-row textarea {
+    flex: 1;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    color: var(--cream);
+    padding: 10px 12px;
+    font-size: 0.83rem;
+    font-family: 'Lato', sans-serif;
+    resize: none;
+    min-height: 44px;
+    max-height: 120px;
+  }
+  .chat-input-row textarea:focus { outline: none; border-color: var(--sage); }
+
+  .saved-qa {
+    background: rgba(0,0,0,0.2);
+    border-left: 3px solid var(--goth-accent);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+  }
+  .saved-qa .sq { font-weight: 700; color: var(--mint); margin-bottom: 4px; }
+  .saved-qa .sa { color: var(--petal); }
+  .saved-qa .sm { font-size: 0.68rem; color: var(--sage); font-family: 'DM Mono', monospace; margin-top: 4px; }
+
+  /* ── NOTES ── */
+  .notes-area {
+    width: 100%;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: var(--cream);
+    padding: 12px 14px;
+    font-size: 0.83rem;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    resize: vertical;
+    min-height: 140px;
+  }
+  .notes-area:focus { outline: none; border-color: var(--sage); }
+
+  /* ── TODO CHECKLIST ── */
+  .todo-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    transition: background 0.2s;
+  }
+  .todo-item.done { opacity: 0.5; }
+  .todo-item.done span { text-decoration: line-through; }
+  .todo-item input[type=checkbox] { accent-color: var(--sage); width: 16px; height: 16px; cursor: pointer; }
+  .todo-item span { font-size: 0.83rem; flex: 1; }
+  .todo-priority {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+  }
+  .p-high { background: rgba(192,57,43,0.3); color: #ff8a7a; }
+  .p-med { background: rgba(230,126,34,0.3); color: #ffb87a; }
+  .p-low { background: rgba(74,94,58,0.3); color: var(--mint); }
+
+  /* ── SUCCESSIVE PLANTING ALERT ── */
+  .succ-alert {
+    background: rgba(212,172,13,0.12);
+    border: 1px solid rgba(212,172,13,0.4);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+  }
+  .succ-alert strong { color: var(--gold); }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 20px 0 14px;
+  }
+  .section-divider span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--sage);
+    white-space: nowrap;
+  }
+  .section-divider::before, .section-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  /* ── LOADING SPINNER ── */
+  .spinner {
+    display: inline-block;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-top-color: var(--sage);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.4rem; }
+    .nav-tab { padding: 10px 12px; font-size: 0.75rem; }
+    .main { padding: 12px 10px; }
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
+  ::-webkit-scrollbar-thumb { background: var(--moss); border-radius: 3px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+  .tag { display: inline-block; background: rgba(255,255,255,0.08); border-radius: 4px; padding: 1px 7px; font-size: 0.7rem; margin: 1px; font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌱 Julia's Garden HQ</h1>
+  <p>Longmont, CO · Season 2025 · Drip on veggie beds · Manual herbs & flowers</p>
+  <div class="stats-bar" id="statsBar">
+    <span class="stat-pill">🍅 Tomatoes: 8 varieties</span>
+    <span class="stat-pill">🌿 Herbs: 10 plants</span>
+    <span class="stat-pill">🌶️ Peppers: 9 varieties planted</span>
+    <span class="stat-pill">🌸 Flowers: Mountain Bed + Marigolds</span>
+    <span class="stat-pill">🛏️ Beds: 4 + Herb Trellis</span>
+  </div>
+</header>
+
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('beds')">🛏️ Beds</button>
+  <button class="nav-tab" onclick="showTab('flowers')">🌸 Flowers</button>
+  <button class="nav-tab" onclick="showTab('fertilizer')">🌿 Fertilizer</button>
+  <button class="nav-tab" onclick="showTab('timeline')">📅 Timeline</button>
+  <button class="nav-tab" onclick="showTab('watering')">💧 Watering</button>
+  <button class="nav-tab" onclick="showTab('log')">📋 Planting Log</button>
+  <button class="nav-tab" onclick="showTab('ai')">🤖 AI Garden Chat</button>
+  <button class="nav-tab" onclick="showTab('notes')">📝 Notes</button>
+  <button class="nav-tab" onclick="showTab('todo')">✅ To-Do</button>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════
+     TAB: BEDS
+═══════════════════════════════════════════════ -->
+<div class="tab-content active" id="tab-beds">
+
+  <!-- TURTLE BED -->
+  <div class="bed-card bed-turtle">
+    <span class="bed-badge badge-turtle">🐢 Bed 1</span>
+    <div class="bed-title">The Turtle Bed</div>
+    <div class="bed-subtitle">6ft × 3ft · Full Sun · Drip irrigated · Fox Ocean Soil</div>
+
+    <div class="bed-diagram">
+      <div class="diagram-label" style="margin-bottom:8px;">⬆ NORTH (back of bed)</div>
+      <!-- 6x3 ft bed: tomatoes need 18-24" apart, ~2 plants + carrots fill gaps, marigolds border -->
+      <div style="display:grid; grid-template-columns: repeat(10,1fr); gap:5px; max-width:500px; margin:0 auto;">
+        <!-- Row 1: marigold border top -->
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <!-- Row 2: marigold | tomato | carrot | carrot | tomato | carrot | carrot | tomato | carrot | marigold -->
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Berkeley Tie Dye · 24" from others</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart, 6-8" from tomato</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Dr. Dexter · 24" from others</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Carbon · 24" from others</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <!-- Row 3: marigold | carrot | carrot | carrot | carrot | carrot | carrot | carrot | carrot | marigold -->
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <!-- Row 4: marigold border bottom -->
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Ananas · 24" spacing</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Cherry Sun Gold · spacing 24"</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Cherry Indigo Drops · 24"</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <!-- Row 5: marigold border bottom -->
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;">🍅<span class="tooltip">Big Beef Plus · place south end</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;">🍅<span class="tooltip">San Marzano · place south end</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
+      </div>
+      <div class="diagram-label">⬇ SOUTH (front/access) · Hover plants for details</div>
+    </div>
+
+    <div style="margin-top:10px; font-size:0.78rem; color:var(--petal);">
+      <strong>Tomato Varieties:</strong>
+      <span class="tag">🍅 Berkeley Tie Dye</span>
+      <span class="tag">🍅 Dr. Dexter</span>
+      <span class="tag">🍅 Carbon</span>
+      <span class="tag">🍅 Ananas</span>
+      <span class="tag">🍅 Cherry Sun Gold</span>
+      <span class="tag">🍅 Cherry Indigo Drops</span>
+      <span class="tag">🍅 Big Beef Plus</span>
+      <span class="tag">🍅 San Marzano</span>
+    </div>
+  </div>
+
+  <!-- PARROT BED -->
+  <div class="bed-card bed-parrot">
+    <span class="bed-badge badge-parrot">🦜 Bed 2</span>
+    <div class="bed-title">The Parrot Bed</div>
+    <div class="bed-subtitle">Full Sun · Drip irrigated · Miracle-Gro soil + 2 bags compost · Transplanted 5/28</div>
+
+    <div class="bed-diagram">
+      <div class="diagram-label" style="margin-bottom:8px;">⬆ NORTH (back — hottest peppers)</div>
+      <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:8px; max-width:380px; margin:0 auto;">
+
+        <!-- ROW 1: NORTH — hottest 4 -->
+        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Habanero · 100k–350k SHU · 2–3ft · transplant 5/28 · Maddie's dad</span></div>
+        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Jedi Jalapeño · 2,500–8k SHU · 2–3ft · transplant 5/28 · Fresh Herb Co.</span></div>
+        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Serrano · 10k–23k SHU · 2–3ft · from Aero Garden seed ~2 months ago</span></div>
+        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Guajillo · 2,500–5k SHU · 3–4ft · transplant 5/28 · Maddie's dad</span></div>
+
+        <!-- ROW 2: MIDDLE — staggered, medium heat -->
+        <div class="plant-slot" style="background:rgba(230,126,34,0.3);border-color:#e67e22;font-size:1.3rem;">🌶️<span class="tooltip">Jedi Jalapeño · 2,500–8k SHU · 2–3ft · transplant 5/28 · Fresh Herb Co.</span></div>
+        <div class="plant-slot" style="background:rgba(230,126,34,0.3);border-color:#e67e22;font-size:1.3rem;">🌶️<span class="tooltip">Espelette · 1,500–2,500 SHU · 2–3ft · transplant 5/28 · Maddie's dad</span></div>
+        <div style="background:transparent;border:none;"></div>
+        <div style="background:transparent;border:none;"></div>
+
+        <!-- ROW 3: SOUTH — mildest & most compact -->
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;font-size:1.3rem;">🌶️<span class="tooltip">Hungarian Hot Wax · 1k–15k SHU · 18–24in · transplant 5/28 · Fresh Herb Co.</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;font-size:1.3rem;">🌶️<span class="tooltip">Tomasita's · ~1–2k SHU · 18–24in · transplant 5/28 · Maddie's dad</span></div>
+        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;font-size:1.3rem;">🌶️<span class="tooltip">Shishito · 50–200 SHU · 18–24in · transplant 5/28 · Fresh Herb Co.</span></div>
+        <div style="background:transparent;border:none;"></div>
+
+      </div>
+      <div class="diagram-label">⬇ SOUTH (front — mildest) · Hover for variety details · Radishes TBD</div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <div style="font-size:0.78rem;color:var(--petal);margin-bottom:6px;"><strong>Sources:</strong></div>
+      <div style="font-size:0.75rem;line-height:1.8;">
+        <span class="tag">🌶️ Maddie's dad — Habanero, Espelette, Guajillo, Tomasita's</span>
+        <span class="tag">🌿 Fresh Herb Co. — Shishito, Jedi Jalapeño (×2), Hungarian Hot Wax</span>
+        <span class="tag">🪴 Aero Garden seed — Serrano (started ~2 months ago)</span>
+      </div>
+      <div style="font-size:0.78rem;color:var(--petal);margin-top:8px;"><strong>Soil:</strong> Miracle-Gro + 2 bags compost · <strong>Planted:</strong> 5/28/25</div>
+    </div>
+
+    <div style="background:rgba(212,172,13,0.12);border:1px solid rgba(212,172,13,0.4);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:0.8rem;">
+      🌱 <strong style="color:var(--gold);">Radishes not yet planted</strong> — direct sow ½" deep, 2" apart in gaps between peppers when ready.
+    </div>
+  </div>
+
+  <!-- FINAL BED (BED 3) -->
+  <div class="bed-card" style="background:linear-gradient(135deg,#1e2d1e,#2a3d2a);border:2px solid #5a8a5a;">
+    <span class="bed-badge" style="background:#3d6b3d;">🍅🌶️ Bed 3</span>
+    <div class="bed-title">The Final Bed</div>
+    <div class="bed-subtitle">Full Sun · Drip irrigated · Mountain Country dairy manure compost (×2, 1cu ft each) + Kellogg all natural + Miracle-Gro all-purpose in-ground · Planted 5/28</div>
+
+    <div style="background:rgba(255,180,0,0.12);border:1px solid rgba(255,180,0,0.4);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:0.8rem;">
+      ⚠️ <strong style="color:var(--gold);">Missed Tomato-Tone on Mystery Tomato #3</strong> — side-dress with Tomato-Tone granules around the base at next watering. All others had Tomato-Tone added to the planting hole.
+    </div>
+
+    <div class="bed-diagram">
+      <div class="diagram-label" style="margin-bottom:8px;">⬆ NORTH (back)</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:400px;margin:0 auto;">
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;font-size:1.3rem;">🍅<span class="tooltip">Mystery Tomato #1 (front left) — Maddie's dad · previously in ~5 gal pot · Tomato-Tone in hole</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot — planted 5/28 · 2-3" apart · 6-8" from tomato stems</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;font-size:1.3rem;">🍅<span class="tooltip">Mystery Tomato #2 — Maddie's dad · Tomato-Tone in hole</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;font-size:1.3rem;">🍅<span class="tooltip">Mystery Tomato #3 — Maddie's dad · ⚠️ NO Tomato-Tone at planting — side-dress ASAP</span></div>
+
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(192,57,43,0.25);border-color:#c0392b;font-size:1.3rem;">🍅<span class="tooltip">San Marzano — Fresh Herb Co. · previously in ~5 gal pot · Tomato-Tone in hole</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(100,160,80,0.3);border-color:#5a9a5a;font-size:1.3rem;">🫐<span class="tooltip">Tomatillo #1 — Maddie's dad · pollination pair ✓</span></div>
+        <div class="plant-slot" style="background:rgba(100,160,80,0.3);border-color:#5a9a5a;font-size:1.3rem;">🫐<span class="tooltip">Tomatillo #2 — Home Depot · pollination pair ✓</span></div>
+
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
+      </div>
+      <div class="diagram-label">⬇ SOUTH (front) · Hover for details · 🥕 Carrots fill gaps · Marigolds still a great border addition</div>
+    </div>
+
+    <div style="margin-top:10px;font-size:0.78rem;color:var(--petal);">
+      <strong>Sources:</strong>
+      <span class="tag">🍅 Maddie's dad — Mystery tomatoes ×3, Tomatillo #1</span>
+      <span class="tag">🌿 Fresh Herb Co. — San Marzano</span>
+      <span class="tag">🏪 Home Depot — Tomatillo #2</span>
+    </div>
+    <div style="margin-top:8px;font-size:0.78rem;color:var(--sage);">
+      💡 <strong>Still room for:</strong> marigolds (border) · radishes (fast crop, harvest before tomatoes need space)
+    </div>
+  </div>
+
+  <!-- POTS -->
+  <div class="bed-card" style="background:linear-gradient(135deg,#1e1e2e,#2e2e40);border:2px solid #7a6aaa;">
+    <span class="bed-badge" style="background:#5a4a8a;">🪴 Pots</span>
+    <div class="bed-title">Container Plants</div>
+    <div class="bed-subtitle">Various · Full sun placement · Manual watering</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;margin-top:10px;">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e03030;">
+        <div style="font-size:1.4rem;">🌶️</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#f5a0a0;">Red Bell Pepper</div>
+        <div style="font-size:0.68rem;color:var(--petal);">~5 gal pot · Ace potting soil</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Maddie's dad · 5/28</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e07030;">
+        <div style="font-size:1.4rem;">🌶️</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#ffb87a;">Big Jim Pepper</div>
+        <div style="font-size:0.68rem;color:var(--petal);">~5 gal pot · Ace potting soil</div>
+        <div style="font-size:0.68rem;color:#ffb87a;margin-top:2px;">⚠️ May need 7-10 gal</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e05050;">
+        <div style="font-size:1.4rem;">🌶️</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#f08080;">BC Chiltepin</div>
+        <div style="font-size:0.68rem;color:var(--petal);">~5 gal pot · Ace potting soil</div>
+        <div style="font-size:0.68rem;color:#a8e6a3;margin-top:2px;">Warmest spot! Rare variety</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #5a9a5a;">
+        <div style="font-size:1.4rem;">🥒</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#a8e6a3;">Chimayó Zucchini</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Large cloth pot · Ace potting soil</div>
+        <div style="font-size:0.68rem;color:var(--sage);">NM heirloom · 5/28</div>
+        <div style="font-size:0.68rem;color:#ffb87a;margin-top:2px;">Water daily in heat!</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e08030;">
+        <div style="font-size:1.4rem;">🌿</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#f5d97a;">Puya (planned)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">5 gal pot · TBD</div>
+        <div style="font-size:0.68rem;color:#ffb87a;margin-top:2px;">Not yet planted</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOTH BED -->
+  <div class="bed-card bed-goth">
+    <span class="bed-badge badge-goth">🖤 Bed 3</span>
+    <div class="bed-title">The Goth Bed</div>
+    <div class="bed-subtitle">4ft × 2ft · Morning + afternoon sun, significant afternoon shade · Drip irrigated</div>
+
+    <div class="bed-diagram">
+      <div class="diagram-label" style="margin-bottom:8px;">Shaded bed — cool crops thrive here</div>
+      <div style="display:grid; grid-template-columns: repeat(6,1fr); gap:5px; max-width:320px; margin:0 auto;">
+        <!-- green onion row -->
+        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion — 2-3" spacing, border row</span></div>
+        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
+        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
+        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
+        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
+        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
+        <!-- lettuce / arugula mix -->
+        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce — 8-10" spacing, planted 5/27 from seed</span></div>
+        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula/Rocket — 6-8" spacing, planted 5/27</span></div>
+        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
+        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
+        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
+        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
+        <!-- cilantro -->
+        <div class="plant-slot" style="background:rgba(100,140,80,0.3);border-color:#7a9e6e;">🌿<span class="tooltip">Cilantro — planted 5/27 from seed · benefits from shade</span></div>
+        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
+        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
+        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
+        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
+        <div class="plant-slot" style="background:rgba(100,140,80,0.3);border-color:#7a9e6e;">🌿<span class="tooltip">Cilantro</span></div>
+      </div>
+      <div class="diagram-label">Hover plants for spacing · 🌿 Cilantro loves this spot</div>
+    </div>
+
+    <div style="background:rgba(212,172,13,0.12);border:1px solid rgba(212,172,13,0.4);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:0.8rem;">
+      ⚠️ <strong style="color:var(--gold);">Successive Planting Reminder:</strong> Arugula bolts in 4–6 weeks. Plant a second round of arugula + lettuce around <strong>June 25</strong>. Cilantro will bolt by late June — replant every 2–3 weeks for continuous harvest.
+    </div>
+  </div>
+
+  <!-- HERBS -->
+  <div class="bed-card bed-herbs">
+    <span class="bed-badge badge-herbs">🌿 Herbs</span>
+    <div class="bed-title">Herb Trellis + Pots</div>
+    <div class="bed-subtitle">Various soils · All transplants unless noted</div>
+
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap:10px; margin-top:8px;">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌿</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Basil (×4)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌶️</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Thai Basil (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">💜</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Lavender (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Home Depot</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌿</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Lemon Thyme (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌲</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Rosemary (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Home Depot</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌱</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Oregano (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27 seed</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Aero Garden kit</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌿</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Italian Parsley (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌿</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Cilantro (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27 seed</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Aero Garden kit · Goth Bed</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
+        <div style="font-size:1.5rem;">🌿</div>
+        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Mint (×1)</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27 seed</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Aero Garden kit · POT ONLY</div>
+      </div>
+    </div>
+
+    <div style="background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.4);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:0.8rem;">
+      🚨 <strong style="color:#ff8a7a;">Mint reminder:</strong> Keep in its own pot! It will aggressively spread via underground runners and take over any shared bed.
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: FLOWERS
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-flowers">
+
+  <!-- LOCATION ALERT -->
+  <div style="background:rgba(240,180,0,0.13);border:1px solid rgba(240,180,0,0.45);border-radius:12px;padding:16px 18px;margin-bottom:18px;">
+    <div style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--gold);margin-bottom:8px;">⚠️ Consider Moving the Mountain Bed</div>
+    <div style="font-size:0.83rem;line-height:1.6;color:var(--petal);">
+      <strong style="color:#f5d97a;">Zinnias and cosmos need 6–8 hours of full sun</strong> and will be leggy, sparse, and disappointing in a mostly-shady spot. Your wildflower mix is also likely sun-preferring.<br><br>
+      <strong style="color:#a8e6a3;">Columbines are the exception</strong> — they're native woodland plants that thrive in partial shade. They'd be perfectly happy staying put.<br><br>
+      <strong>Best option:</strong> Move the whole bed to a sunnier spot, or relocate just the zinnias + cosmos and leave the columbines where they are. The morning sun is not enough for zinnia/cosmos to perform well.
+    </div>
+  </div>
+
+  <!-- MOUNTAIN BED CARD -->
+  <div style="background:linear-gradient(135deg,#1e1a2e,#2a2040);border:2px solid #9b7fc4;border-radius:14px;padding:20px;margin-bottom:20px;">
+    <span style="display:inline-block;background:#6b4fa0;color:#fff;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 12px;margin-bottom:8px;">⛰️ Mountain Bed</span>
+    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:4px;">The Mountain Bed</div>
+    <div style="font-size:0.8rem;opacity:0.7;margin-bottom:16px;">Small bed · Morning sun only · Mostly shaded · Manual watering · Transplanted 5/26</div>
+
+    <!-- BED DIAGRAM -->
+    <div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:14px;margin:12px 0;">
+      <div style="font-size:0.7rem;color:var(--petal);text-align:center;margin-bottom:8px;font-family:'DM Mono',monospace;">⬆ BACK of bed</div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;max-width:300px;margin:0 auto;">
+        <!-- Back row: columbines (shade-happy, keep here) -->
+        <div class="plant-slot" style="background:rgba(155,127,196,0.3);border-color:#9b7fc4;grid-column:span 2;">💜<span class="tooltip">Columbine — shade tolerant ✓ Happy here · transplanted 5/26 from Aero Garden</span></div>
+        <div class="plant-slot" style="background:rgba(155,127,196,0.3);border-color:#9b7fc4;grid-column:span 2;">💜<span class="tooltip">Columbine — shade tolerant ✓ Happy here</span></div>
+        <div class="plant-slot" style="background:rgba(155,127,196,0.3);border-color:#9b7fc4;grid-column:span 2;">💜<span class="tooltip">Columbine — shade tolerant ✓ Can stay even if you move other plants</span></div>
+        <!-- Middle: cosmos + zinnia (want sun) -->
+        <div class="plant-slot" style="background:rgba(230,180,100,0.25);border-color:#e6b464;grid-column:span 3;">🌸<span class="tooltip">Cosmos — needs full sun ⚠️ Consider moving · transplanted 5/26 from Maddie's dad</span></div>
+        <div class="plant-slot" style="background:rgba(220,80,80,0.25);border-color:#dc5050;grid-column:span 3;">🌺<span class="tooltip">Zinnia — needs full sun ⚠️ Consider moving · transplanted 5/26 from Maddie's dad</span></div>
+        <!-- Front: wildflower seed mix -->
+        <div class="plant-slot" style="background:rgba(100,160,80,0.2);border-color:#7ab060;grid-column:span 6;border-radius:8px;aspect-ratio:auto;padding:10px;justify-content:center;flex-direction:column;gap:2px;">
+          🌱🌼🌻🌿
+          <span class="tooltip">Wildflower seed mix — seeded 5/26 · most varieties need sun · keep moist until germination</span>
+          <div style="font-size:0.65rem;color:var(--petal);text-align:center;margin-top:4px;">Wildflower Mix — keep moist daily until sprouts appear</div>
+        </div>
+      </div>
+      <div style="font-size:0.7rem;color:var(--petal);text-align:center;margin-top:8px;font-family:'DM Mono',monospace;">⬇ FRONT · Hover plants for details</div>
+    </div>
+
+    <!-- PLANT CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px;">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #dc5050;">
+        <div style="font-size:1.4rem;">🌺</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#f5a0a0;">Zinnia</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Transplant · 5/26</div>
+        <div style="font-size:0.68rem;color:var(--sage);">From Maddie's dad</div>
+        <div style="font-size:0.68rem;color:#ffb87a;margin-top:4px;">⚠️ Wants full sun</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e6b464;">
+        <div style="font-size:1.4rem;">🌸</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#f5d97a;">Cosmos</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Transplant · 5/26</div>
+        <div style="font-size:0.68rem;color:var(--sage);">From Maddie's dad</div>
+        <div style="font-size:0.68rem;color:#ffb87a;margin-top:4px;">⚠️ Wants full sun</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #9b7fc4;">
+        <div style="font-size:1.4rem;">💜</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#c9a8f0;">Columbine</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Transplant · 5/26</div>
+        <div style="font-size:0.68rem;color:var(--sage);">From Aero Garden seed</div>
+        <div style="font-size:0.68rem;color:#a8e6a3;margin-top:4px;">✓ Happy in shade!</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #7ab060;">
+        <div style="font-size:1.4rem;">🌱</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#a8c89a;">Wildflower Mix</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Seed · 5/26</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Seed mix</div>
+        <div style="font-size:0.68rem;color:#ffb87a;margin-top:4px;">⚠️ Most want sun</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MINI FLOWER GARDEN -->
+  <div style="background:linear-gradient(135deg,#1e2e1a,#2a3d22);border:2px solid #f4a636;border-radius:14px;padding:20px;margin-bottom:20px;">
+    <span style="display:inline-block;background:#c47e1a;color:#fff;border-radius:20px;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 12px;margin-bottom:8px;">🌻 Gate Garden</span>
+    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:4px;">Mini Flower Garden</div>
+    <div style="font-size:0.8rem;opacity:0.7;margin-bottom:16px;">In-ground by gate · ~8 hrs sun · Full sun · Manual watering · Planted ~5/26</div>
+
+    <div style="background:rgba(244,166,54,0.1);border:1px solid rgba(244,166,54,0.3);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:0.82rem;color:var(--petal);">
+      ☀️ <strong style="color:#f4c875;">Perfect sun conditions</strong> for everything here. 8 hours is ideal for delphiniums and wildflowers alike. In-ground planting gives roots more room and moisture retention than a raised bed.
+    </div>
+
+    <!-- DIAGRAM -->
+    <div style="background:rgba(0,0,0,0.25);border-radius:10px;padding:14px;margin:12px 0;">
+      <div style="font-size:0.7rem;color:var(--petal);text-align:center;margin-bottom:8px;font-family:'DM Mono',monospace;">🚪 Gate — In-ground planting</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:280px;margin:0 auto;">
+        <div class="plant-slot" style="background:rgba(80,120,200,0.3);border-color:#6090d8;grid-column:span 2;font-size:1.4rem;">💙<span class="tooltip">Delphinium — tall statement plant · full sun · planted ~5/26 · can reach 3-5ft</span></div>
+        <div class="plant-slot" style="background:rgba(100,160,80,0.2);border-color:#7ab060;grid-column:span 3;">🌱<span class="tooltip">Wildflower mix — sprinkled ~5/26 · keep moist daily until germination</span></div>
+        <div class="plant-slot" style="background:rgba(100,160,80,0.2);border-color:#7ab060;grid-column:span 5;border-radius:8px;aspect-ratio:auto;padding:10px;justify-content:center;">
+          🌼🌻🌸🌺🌼
+          <span class="tooltip">Wildflower mix spreading area — scatter-seeded</span>
+          <div style="font-size:0.65rem;color:var(--petal);text-align:center;margin-top:4px;">Wildflower spread — daily mist until germination</div>
+        </div>
+      </div>
+      <div style="font-size:0.7rem;color:var(--petal);text-align:center;margin-top:8px;font-family:'DM Mono',monospace;">Hover for plant details</div>
+    </div>
+
+    <!-- PLANT CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px;">
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #6090d8;">
+        <div style="font-size:1.4rem;">💙</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#a0c0f0;">Delphinium</div>
+        <div style="font-size:0.68rem;color:var(--petal);">In-ground · ~5/26</div>
+        <div style="font-size:0.68rem;color:var(--sage);">By gate</div>
+        <div style="font-size:0.68rem;color:#a8e6a3;margin-top:4px;">✓ Loves full sun</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #7ab060;">
+        <div style="font-size:1.4rem;">🌱</div>
+        <div style="font-size:0.78rem;font-weight:700;color:#a8c89a;">Wildflower Mix</div>
+        <div style="font-size:0.68rem;color:var(--petal);">Seed · ~5/26</div>
+        <div style="font-size:0.68rem;color:var(--sage);">Scattered in-ground</div>
+        <div style="font-size:0.68rem;color:#a8e6a3;margin-top:4px;">✓ Full sun = great</div>
+      </div>
+    </div>
+
+    <!-- DELPHINIUM CARE NOTE -->
+    <div style="background:rgba(80,120,200,0.12);border:1px solid rgba(80,120,200,0.35);border-radius:8px;padding:12px 14px;margin-top:12px;">
+      <div style="font-weight:700;font-size:0.85rem;color:#a0c0f0;margin-bottom:6px;">💙 Delphinium Care — Longmont Specific</div>
+      <div style="font-size:0.79rem;line-height:1.6;color:var(--petal);">
+        Delphiniums are actually <strong>perfectly suited to Colorado</strong> — they love cool nights and full sun days, which is exactly what Longmont delivers. A few things to know:<br><br>
+        • <strong>Staking:</strong> They get tall (3–5ft) and Longmont's wind will knock them over. Stake early — put the stake in now before roots spread.<br>
+        • <strong>Water:</strong> Deep watering every 2–3 days. They like consistent moisture but hate soggy roots.<br>
+        • <strong>Deadhead</strong> spent spikes down to a side shoot for a second flush of blooms in late summer.<br>
+        • <strong>Toxic to pets</strong> — worth noting if Cashew has access to this area.
+      </div>
+    </div>
+  </div>
+
+  <!-- WATERING GUIDE -->
+  <div class="card">
+    <div class="card-title">💧 Mountain Bed Watering — Manual</div>
+
+    <div style="background:rgba(91,155,213,0.08);border:1px solid rgba(91,155,213,0.2);border-radius:8px;padding:12px 14px;margin-bottom:14px;font-size:0.82rem;color:var(--petal);">
+      💡 Morning sun + afternoon shade means soil stays cooler and retains moisture longer than a full-sun bed. Water in the morning when possible so foliage dries before evening (reduces fungal issues, especially for zinnias).
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="timeline-table">
+        <thead>
+          <tr><th>Plant</th><th>Frequency</th><th>Method</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🌺 Zinnia</td>
+            <td><span class="date-chip">Every 2–3 days</span></td>
+            <td>At soil level only</td>
+            <td><strong>Never wet the leaves</strong> — zinnias get powdery mildew easily. Deep water at base. Let soil dry slightly between waterings.</td>
+          </tr>
+          <tr>
+            <td>🌸 Cosmos</td>
+            <td><span class="date-chip">Every 3–4 days</span></td>
+            <td>Deep soak at base</td>
+            <td>Drought tolerant once established. Overwatering = lush leaves, few blooms. Let it get a little dry — it actually blooms better with mild stress.</td>
+          </tr>
+          <tr>
+            <td>💜 Columbine</td>
+            <td><span class="date-chip">Every 3–4 days</span></td>
+            <td>Moderate soak</td>
+            <td>Shade helps retain moisture. Keep consistently moist but not waterlogged. Established columbines are quite drought tolerant.</td>
+          </tr>
+          <tr>
+            <td>🌱 Wildflower seeds</td>
+            <td><span class="date-chip">Daily — light mist</span></td>
+            <td>Gentle mist or watering can</td>
+            <td>Until germination (7–21 days depending on mix). Don't let seeds dry out or they won't germinate. Once 1–2" tall, taper to every 2–3 days.</td>
+          </tr>
+          <tr>
+            <td>💙 Delphinium (gate)</td>
+            <td><span class="date-chip">Every 2–3 days</span></td>
+            <td>Deep soak at base</td>
+            <td>Consistent moisture, no soggy roots. Stake early — Longmont wind will knock over tall spikes. Water more in heat, less once established.</td>
+          </tr>
+          <tr>
+            <td>🌱 Wildflowers (gate)</td>
+            <td><span class="date-chip">Daily mist until sprouted</span></td>
+            <td>Gentle mist</td>
+            <td>Full sun means soil dries faster than Mountain Bed — check daily. Once 1–2" tall taper to every 2–3 days. In-ground retains moisture better than raised beds.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DRIP LINE RECOMMENDATION -->
+    <div style="background:rgba(91,155,213,0.1);border:1px solid rgba(91,155,213,0.3);border-radius:8px;padding:12px 14px;margin-top:14px;">
+      <div style="font-weight:700;font-size:0.88rem;color:#8ec6f0;margin-bottom:6px;">🔧 Drip Line Recommendation</div>
+      <div style="font-size:0.82rem;color:var(--petal);line-height:1.6;">
+        <strong>Mountain Bed:</strong> Yes, worth it — soaker hose or low drip emitters, 15 min every 2–3 days. Shade helps retain moisture so you won't need daily runs. Supplement wildflower section manually with mist until germinated.<br><br>
+        <strong>Mini Flower Garden (gate):</strong> Also worth adding a drip line — full sun means faster evaporation. A soaker hose looped around the delphinium and through the wildflower area works great. Set to 15–20 min every 2 days. The delphinium especially benefits from consistent soil moisture.
+      </div>
+    </div>
+  </div>
+
+  <!-- FERTILIZER FOR FLOWERS -->
+  <div class="card">
+    <div class="card-title">🌿 Flower Fertilizer</div>
+
+    <div class="section-divider"><span>⛰️ Mountain Bed</span></div>
+    <div class="switch-alert" id="sw-mountain">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-mountain')">
+      <div>
+        <strong style="color:var(--gold);">⚡ Switch to Tomato-Tone when plants start budding</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">Stop Miracle-Gro at budding — high nitrogen = leaves over blooms. Tomato-Tone's higher K encourages flower production.</div>
+      </div>
+    </div>
+    <div id="fert-mountain"></div>
+
+    <div class="section-divider"><span>🌻 Mini Flower Garden (Gate)</span></div>
+    <div class="switch-alert" id="sw-gate">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-gate')">
+      <div>
+        <strong style="color:var(--gold);">⚡ Switch to Tomato-Tone when delphinium starts spiking</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">Wildflowers need no fertilizer once established — skip feeding them entirely. Delphinium only.</div>
+      </div>
+    </div>
+    <div id="fert-gate"></div>
+  </div>
+
+  <!-- FLOWER CARE TIPS -->
+  <div class="card">
+    <div class="card-title">✂️ Bloom & Care Tips</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+      <div style="background:rgba(220,80,80,0.1);border:1px solid rgba(220,80,80,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#f5a0a0;margin-bottom:6px;">🌺 Zinnias</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Deadhead spent blooms regularly — this is the #1 trick for more flowers all season. Pinch off faded flowers to the next leaf node. The more you cut, the more they bloom. Cut for vases freely!
+        </div>
+      </div>
+      <div style="background:rgba(230,180,100,0.1);border:1px solid rgba(230,180,100,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#f5d97a;margin-bottom:6px;">🌸 Cosmos</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Also benefits from deadheading. Can be cut back by ⅓ mid-season if they get leggy (which they will in shade). Self-seeds freely — let a few go to seed at end of season for next year.
+        </div>
+      </div>
+      <div style="background:rgba(155,127,196,0.1);border:1px solid rgba(155,127,196,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#c9a8f0;margin-bottom:6px;">💜 Columbine</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Native to Colorado — very low maintenance. Blooms spring/early summer then dies back. Let seed pods form and shake them around the bed to self-sow for next year. Don't deadhead if you want more plants.
+        </div>
+      </div>
+      <div style="background:rgba(100,160,80,0.1);border:1px solid rgba(100,160,80,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#a8c89a;margin-bottom:6px;">🌱 Wildflower Mix</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Thin seedlings once 2–3" tall to avoid overcrowding. Most wildflowers need no fertilizer once established — they're adapted to lean soil. Don't over-tend; wildflowers thrive on neglect.
+        </div>
+      </div>
+      <div style="background:rgba(100,180,180,0.1);border:1px solid rgba(100,180,180,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#90d4d4;margin-bottom:6px;">🌀 Fan Flowers (Scaevola)</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Self-cleaning — no deadheading needed at all. Pinch back leggy stems mid-summer to keep bushy. Very heat tolerant. Feed monthly with Miracle-Gro at half strength; they don't need heavy feeding.
+        </div>
+      </div>
+      <div style="background:rgba(100,120,200,0.1);border:1px solid rgba(100,120,200,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#a0b0f0;margin-bottom:6px;">🪻 Periwinkle / Vinca</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Also self-cleaning. Hanging baskets dry out fast — check daily in Longmont heat even if you water every 2 days. Trim back by ⅓ mid-summer if trailing gets stringy. Monthly Miracle-Gro feeding keeps blooms coming.
+        </div>
+      </div>
+      <div style="background:rgba(200,80,100,0.1);border:1px solid rgba(200,80,100,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#f0a0b0;margin-bottom:6px;">🌹 Rose Bush (budding)</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Deadhead every spent bloom by cutting to a 5-leaflet leaf node — this is what keeps roses blooming all season. Never water overhead. Watch for aphids (blast with hose) and black spot (remove affected leaves). Roses reward attention.
+        </div>
+      </div>
+      <div style="background:rgba(200,80,100,0.1);border:1px solid rgba(200,80,100,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#f0a0b0;margin-bottom:6px;">🌹 Rose Pendulina (blooming)</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Alpine/wild rose — tougher than hybrid roses, more drought tolerant, less disease prone. Already blooming so skip to bloom fertilizer now. Produces attractive rosehips in fall — leave some blooms to go to seed for wildlife and visual interest.
+        </div>
+      </div>
+      <div style="background:rgba(220,140,180,0.1);border:1px solid rgba(220,140,180,0.3);border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#e8b0d0;margin-bottom:6px;">🌺 Rose of Sharon</div>
+        <div style="font-size:0.78rem;line-height:1.5;color:var(--petal);">
+          Just greening up = vegetative stage, feed now with balanced fertilizer. Very low maintenance once established — drought tolerant, pest resistant. Blooms on new wood so a light spring prune encourages more flowers. Self-seeds prolifically; remove seed pods after bloom if you don't want dozens of seedlings next year.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROSES & LARGE FLOWERS SECTION -->
+  <div class="card">
+    <div class="card-title">🌹 Roses & Shrubs — Care Guide</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+
+      <div style="background:rgba(200,80,100,0.1);border:1px solid rgba(200,80,100,0.4);border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:#f0a0b0;font-size:0.9rem;margin-bottom:8px;">🌹 Rose Bush — just budding</div>
+        <div style="font-size:0.79rem;line-height:1.6;color:var(--petal);">
+          <strong>Water:</strong> Every 3–4 days, deep soak at base. Never overhead — wet foliage = black spot fungus.<br>
+          <strong>Fertilizer:</strong> Rose-Tone now (vegetative/budding), continue every 4–6 weeks through August. Stop feeding after Aug 15 so plant hardens off for winter.<br>
+          <strong>Sun:</strong> Needs 6+ hours for best bloom.<br>
+          <strong>Watch:</strong> Aphids on new growth, black spot on leaves.
+        </div>
+      </div>
+
+      <div style="background:rgba(200,80,100,0.1);border:1px solid rgba(200,80,100,0.4);border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:#f0a0b0;font-size:0.9rem;margin-bottom:8px;">🌹 Rose Pendulina — fully blooming</div>
+        <div style="font-size:0.79rem;line-height:1.6;color:var(--petal);">
+          <strong>Water:</strong> Every 3–4 days. More drought tolerant than hybrid roses — don't overwater.<br>
+          <strong>Fertilizer:</strong> Rose-Tone immediately (already blooming). Every 4–6 weeks through August.<br>
+          <strong>Note:</strong> Alpine species rose — naturalized to Colorado conditions. Very tough. Produces ornamental rosehips in fall.<br>
+          <strong>Stop feeding:</strong> Aug 15 to harden off for winter.
+        </div>
+      </div>
+
+      <div style="background:rgba(220,140,180,0.1);border:1px solid rgba(220,140,180,0.4);border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:#e8b0d0;font-size:0.9rem;margin-bottom:8px;">🌺 Rose of Sharon — greening up</div>
+        <div style="font-size:0.79rem;line-height:1.6;color:var(--petal);">
+          <strong>Water:</strong> Every 3–4 days while establishing. Once leafed out: every 5–7 days — very drought tolerant.<br>
+          <strong>Fertilizer:</strong> Miracle-Gro now (vegetative), switch to Rose-Tone when buds form (~July).<br>
+          <strong>Blooms:</strong> Late July through September — one of the latest bloomers in the garden.<br>
+          <strong>Note:</strong> Remove spent seed pods if you don't want hundreds of seedlings.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAN FLOWERS & PERIWINKLE -->
+  <div class="card">
+    <div class="card-title">🌀 Fan Flowers & Periwinkle — Care Guide</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;">
+      <div style="background:rgba(100,180,180,0.1);border:1px solid rgba(100,180,180,0.3);border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:#90d4d4;font-size:0.9rem;margin-bottom:8px;">🌀 Fan Flowers — large white & purple</div>
+        <div style="font-size:0.79rem;line-height:1.6;color:var(--petal);">
+          <strong>Water:</strong> Every 2–3 days. Drought tolerant but bloom best with consistent moisture.<br>
+          <strong>Fertilizer:</strong> Miracle-Gro at ½ strength monthly. No switch needed — no fruiting stage.<br>
+          <strong>Self-cleaning:</strong> No deadheading required at all.<br>
+          <strong>Sun:</strong> Full sun to partial shade — very adaptable.<br>
+          <strong>Pinch back</strong> leggy stems mid-July to keep bushy and full.
+        </div>
+      </div>
+      <div style="background:rgba(100,120,200,0.1);border:1px solid rgba(100,120,200,0.3);border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:#a0b0f0;font-size:0.9rem;margin-bottom:8px;">🪻 Periwinkle / Vinca — hanging under tree</div>
+        <div style="font-size:0.79rem;line-height:1.6;color:var(--petal);">
+          <strong>Water:</strong> Check daily — hanging baskets in Longmont heat dry out fast. Water every 1–2 days in summer; stick your finger in — if dry 1" down, water.<br>
+          <strong>Fertilizer:</strong> Miracle-Gro at ½ strength every 2–3 weeks (more frequent than in-ground because nutrients leach through baskets with each watering).<br>
+          <strong>Self-cleaning:</strong> No deadheading needed.<br>
+          <strong>Tree shade:</strong> Dappled shade is ideal for vinca — they'll do well here.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOOM TIMELINE -->
+  <div class="card">
+    <div class="card-title">📅 Expected Bloom Timeline</div>
+    <div style="overflow-x:auto;">
+      <table class="timeline-table">
+        <thead>
+          <tr><th>Plant</th><th>Transplanted/Seeded</th><th>Est. First Bloom</th><th>Peak Season</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🌺 Zinnia</td>
+            <td><span class="date-chip">5/26 transplant</span></td>
+            <td><span class="date-chip">~late June (less sun = slower)</span></td>
+            <td><span class="date-chip">July–frost (if moved to sun)</span></td>
+          </tr>
+          <tr>
+            <td>🌸 Cosmos</td>
+            <td><span class="date-chip">5/26 transplant</span></td>
+            <td><span class="date-chip">~late June–July</span></td>
+            <td><span class="date-chip">July–Oct</span></td>
+          </tr>
+          <tr>
+            <td>💜 Columbine</td>
+            <td><span class="date-chip">5/26 transplant</span></td>
+            <td><span class="date-chip">~May–June 2026 (1st year = establish)</span></td>
+            <td><span class="date-chip">Spring annually</span></td>
+          </tr>
+          <tr>
+            <td>🌱 Wildflower Mix (both spots)</td>
+            <td><span class="date-chip">5/26 seed</span></td>
+            <td><span class="date-chip">Germination 7–21 days · blooms ~8–10 wks</span></td>
+            <td><span class="date-chip">Aug–frost</span></td>
+          </tr>
+          <tr>
+            <td>💙 Delphinium (gate)</td>
+            <td><span class="date-chip">~5/26 in-ground</span></td>
+            <td><span class="date-chip">~July (modest first year)</span></td>
+            <td><span class="date-chip">July–Aug + Sept 2nd flush</span></td>
+          </tr>
+          <tr>
+            <td>🌹 Rose Bush</td>
+            <td><span class="date-chip">established</span></td>
+            <td><span class="date-chip">June (buds forming now)</span></td>
+            <td><span class="date-chip">June–Sept with deadheading</span></td>
+          </tr>
+          <tr>
+            <td>🌹 Rose Pendulina</td>
+            <td><span class="date-chip">established</span></td>
+            <td><span class="date-chip">NOW — fully blooming</span></td>
+            <td><span class="date-chip">Now–July · rosehips Sept–Oct</span></td>
+          </tr>
+          <tr>
+            <td>🌺 Rose of Sharon</td>
+            <td><span class="date-chip">established</span></td>
+            <td><span class="date-chip">~late July</span></td>
+            <td><span class="date-chip">Aug–Sept — latest bloomer</span></td>
+          </tr>
+          <tr>
+            <td>🌀 Fan Flowers</td>
+            <td><span class="date-chip">established</span></td>
+            <td><span class="date-chip">NOW — already blooming</span></td>
+            <td><span class="date-chip">Now–frost</span></td>
+          </tr>
+          <tr>
+            <td>🪻 Periwinkle (hanging)</td>
+            <td><span class="date-chip">established</span></td>
+            <td><span class="date-chip">NOW — already blooming</span></td>
+            <td><span class="date-chip">Now–frost</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="font-size:0.78rem;color:var(--sage);margin-top:10px;">💡 Columbines transplanted this year will likely focus on root establishment — first real bloom season is spring 2026. Completely normal.</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: FERTILIZER
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-fertilizer">
+
+  <div class="card">
+    <div class="card-title">🧪 Your 3 Fertilizers</div>
+    <div class="grid-2">
+      <div style="background:rgba(74,124,89,0.2);border:1px solid #4a7c59;border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#7ed6a3;">5-1-1 Fish Fertilizer</div>
+        <div style="font-size:0.78rem;color:var(--petal);margin-top:4px;">High nitrogen · Leafy greens, herbs, early growth</div>
+        <div style="font-size:0.72rem;font-family:'DM Mono',monospace;color:var(--sage);margin-top:4px;">Use at ½ strength for herbs</div>
+      </div>
+      <div style="background:rgba(40,116,166,0.2);border:1px solid #2874a6;border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#85c1e9;">Miracle-Gro All Purpose (24-8-16)</div>
+        <div style="font-size:0.78rem;color:var(--petal);margin-top:4px;">Balanced · General planting, early season all beds</div>
+        <div style="font-size:0.72rem;font-family:'DM Mono',monospace;color:var(--sage);margin-top:4px;">Water-soluble — apply when watering</div>
+      </div>
+      <div style="background:rgba(146,43,33,0.2);border:1px solid #922b21;border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#ff8a7a;">Espoma Tomato-Tone (3-4-6)</div>
+        <div style="font-size:0.78rem;color:var(--petal);margin-top:4px;">Low N, higher P+K · Fruiting stage, flowering stage</div>
+        <div style="font-size:0.72rem;font-family:'DM Mono',monospace;color:var(--sage);margin-top:4px;">Organic granular — work into soil surface</div>
+      </div>
+      <div style="background:rgba(200,80,100,0.2);border:1px solid #c85070;border-radius:8px;padding:12px;">
+        <div style="font-weight:700;color:#f0a0b0;">Espoma Rose-Tone (recommended 4th)</div>
+        <div style="font-size:0.78rem;color:var(--petal);margin-top:4px;">Organic · Roses + Rose of Sharon · feed every 4–6 weeks May–Aug</div>
+        <div style="font-size:0.72rem;font-family:'DM Mono',monospace;color:var(--sage);margin-top:4px;">Stop feeding after Aug 15 — lets plants harden off for winter</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TURTLE BED FERT -->
+  <div class="bed-card bed-turtle">
+    <div class="bed-title">🐢 Turtle Bed Fertilizer Schedule</div>
+    <div class="bed-subtitle">Tomatoes, Carrots, Marigolds</div>
+
+    <div class="section-divider"><span>🔄 Switch Fertilizer Alert</span></div>
+    <div class="switch-alert" id="sw-turtle">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-turtle')">
+      <div>
+        <strong style="color:var(--gold);">⚡ Switch to Tomato-Tone when first flowers appear</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">Stop Miracle-Gro, start Espoma Tomato-Tone every 2 weeks. Too much nitrogen after flowering = leaves, not fruit.</div>
+      </div>
+    </div>
+
+    <div class="section-divider"><span>📋 Fertilizer Tasks</span></div>
+    <div id="fert-turtle"></div>
+  </div>
+
+  <!-- PARROT BED FERT -->
+  <div class="bed-card bed-parrot">
+    <div class="bed-title">🦜 Parrot Bed Fertilizer Schedule</div>
+    <div class="bed-subtitle">Peppers, Radishes, Green Onions</div>
+    <div class="switch-alert" id="sw-parrot">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-parrot')">
+      <div>
+        <strong style="color:var(--gold);">⚡ Switch to Tomato-Tone when peppers start flowering</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">Same logic as tomatoes — reduce nitrogen at flowering or risk lush plants with poor fruit set.</div>
+      </div>
+    </div>
+
+    <div class="section-divider"><span>📋 Fertilizer Tasks</span></div>
+    <div id="fert-parrot"></div>
+  </div>
+
+  <!-- GOTH BED FERT -->
+  <div class="bed-card bed-goth">
+    <div class="bed-title">🖤 Goth Bed Fertilizer Schedule</div>
+    <div class="bed-subtitle">Lettuce, Arugula, Cilantro — nitrogen-only, no switch needed</div>
+    <div id="fert-goth"></div>
+  </div>
+
+  <!-- HERBS FERT -->
+  <div class="bed-card bed-herbs">
+    <div class="bed-title">🌿 Herb Fertilizer Schedule</div>
+    <div class="bed-subtitle">Half strength only — heavy feeding = less flavor</div>
+    <div id="fert-herbs"></div>
+  </div>
+
+  <!-- MARIGOLDS FERT -->
+  <div class="card">
+    <div class="card-title">🌼 Marigold Fertilizer Schedule</div>
+    <div class="section-divider"><span>🔄 Switch Alert</span></div>
+    <div class="switch-alert" id="sw-marigold">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-marigold')">
+      <div>
+        <strong style="color:var(--gold);">⚡ Switch to Tomato-Tone when marigolds start budding</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">Stop high-nitrogen Miracle-Gro or you'll get lots of leaves and few blooms.</div>
+      </div>
+    </div>
+    <div id="fert-marigold"></div>
+  </div>
+
+  <!-- ROSES FERT -->
+  <div class="card">
+    <div class="card-title">🌹 Roses & Rose of Sharon Fertilizer</div>
+    <div style="background:rgba(200,80,100,0.1);border:1px solid rgba(200,80,100,0.3);border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:0.8rem;color:var(--petal);">
+      🛒 <strong style="color:#f0a0b0;">Recommended: Pick up Espoma Rose-Tone</strong> — it's the ideal fertilizer for all three of your roses/shrubs and eliminates guesswork. Available at Ace Hardware, Home Depot, or Walmart garden center.
+    </div>
+
+    <div class="section-divider"><span>🌹 Rose Bush (budding)</span></div>
+    <div class="switch-alert" id="sw-rosebush">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-rosebush')">
+      <div>
+        <strong style="color:var(--gold);">⚡ Already budding — start Rose-Tone now</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">Don't use high-nitrogen Miracle-Gro at this stage. Go straight to Rose-Tone.</div>
+      </div>
+    </div>
+    <div id="fert-rosebush"></div>
+
+    <div class="section-divider"><span>🌹 Rose Pendulina (fully blooming)</span></div>
+    <div class="switch-alert" id="sw-rosependulina" style="border-color:var(--tomato);">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-rosependulina')">
+      <div>
+        <strong style="color:#ff8a7a;">⚡ Already in full bloom — apply Rose-Tone immediately</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">This one is already ahead — feed it Rose-Tone now and every 4–6 weeks through August.</div>
+      </div>
+    </div>
+    <div id="fert-rosependulina"></div>
+
+    <div class="section-divider"><span>🌺 Rose of Sharon (greening up)</span></div>
+    <div class="switch-alert" id="sw-roseofsharon">
+      <input type="checkbox" onchange="toggleSwitch(this,'sw-roseofsharon')">
+      <div>
+        <strong style="color:var(--gold);">⚡ Switch to Rose-Tone when buds form (~July)</strong>
+        <div style="font-size:0.75rem;margin-top:2px;color:var(--petal);">Start with Miracle-Gro now (vegetative), switch to Rose-Tone once buds appear.</div>
+      </div>
+    </div>
+    <div id="fert-roseofsharon"></div>
+  </div>
+
+  <!-- FAN FLOWERS & PERIWINKLE FERT -->
+  <div class="card">
+    <div class="card-title">🌀 Fan Flowers & Periwinkle Fertilizer</div>
+    <p style="font-size:0.8rem;color:var(--petal);margin-bottom:12px;">Both are low-maintenance feeders. No switch needed — they don't have a fruiting stage. Miracle-Gro at half strength monthly is all they need.</p>
+    <div id="fert-fanperiwinkle"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: TIMELINE
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-timeline">
+
+  <div class="succ-alert">
+    <strong>🔁 Successive Planting Recommendations:</strong><br>
+    • <strong>Arugula</strong> — replant every 3 weeks. Next round: <strong>~June 18</strong><br>
+    • <strong>Lettuce</strong> — replant every 3–4 weeks. Next round: <strong>~June 27</strong><br>
+    • <strong>Cilantro</strong> — replant every 2–3 weeks. Next round: <strong>~June 11</strong>, then ~July 2<br>
+    • <strong>Radishes</strong> — fastest crop, replant every 3–4 weeks for continuous harvest<br>
+    • <strong>Green Onions</strong> — cut-and-regrow from roots, no succession needed<br>
+    • <strong>Cauliflower</strong> — START SEEDS INDOORS late June/early July for fall transplant in August
+  </div>
+
+  <div class="card">
+    <div class="card-title">🌱 Sprouting & Fruiting Timeline (from seed)</div>
+    <div style="overflow-x:auto;">
+      <table class="timeline-table">
+        <thead>
+          <tr>
+            <th>Plant</th>
+            <th>Planted</th>
+            <th>Germination</th>
+            <th>Est. Sprout Date</th>
+            <th>First Harvest / Fruit</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🥬 Lettuce</td>
+            <td><span class="date-chip">5/27</span></td>
+            <td>7–14 days</td>
+            <td><span class="date-chip">~June 3–10</span></td>
+            <td><span class="date-chip">~July 1 (cut-and-come-again)</span></td>
+            <td>Goth Bed · needs light to germinate, thin to 8-10"</td>
+          </tr>
+          <tr>
+            <td>🥗 Arugula/Rocket</td>
+            <td><span class="date-chip">5/27</span></td>
+            <td>5–7 days</td>
+            <td><span class="date-chip">~June 1–3</span></td>
+            <td><span class="date-chip">~June 20 (cut-and-come-again)</span></td>
+            <td>Goth Bed · fastest germinator · bolt watch after 4-6 wks</td>
+          </tr>
+          <tr>
+            <td>🌿 Cilantro</td>
+            <td><span class="date-chip">5/27</span></td>
+            <td>7–14 days</td>
+            <td><span class="date-chip">~June 3–10</span></td>
+            <td><span class="date-chip">~June 25 (first harvest)</span></td>
+            <td>Goth Bed · will bolt ~late June, replant</td>
+          </tr>
+          <tr>
+            <td>🌱 Oregano</td>
+            <td><span class="date-chip">5/27</span></td>
+            <td>8–14 days</td>
+            <td><span class="date-chip">~June 4–10</span></td>
+            <td><span class="date-chip">~Aug 1 (harvest-ready)</span></td>
+            <td>Herb trellis · slow from seed · be patient</td>
+          </tr>
+          <tr>
+            <td>🌿 Mint</td>
+            <td><span class="date-chip">5/27</span></td>
+            <td>10–16 days</td>
+            <td><span class="date-chip">~June 6–12</span></td>
+            <td><span class="date-chip">~Aug 15 (harvest-ready)</span></td>
+            <td>Pot only · slowest from seed · consider transplant</td>
+          </tr>
+          <tr>
+            <td>🌼 Marigold (African)</td>
+            <td><span class="date-chip">TBD</span></td>
+            <td>5–7 days</td>
+            <td><span class="date-chip">~1 wk after planting</span></td>
+            <td><span class="date-chip">~8–10 wks after planting</span></td>
+            <td>Turtle Bed border · direct sow now</td>
+          </tr>
+          <tr>
+            <td>🥕 Carrots</td>
+            <td><span class="date-chip">TBD</span></td>
+            <td>10–21 days</td>
+            <td><span class="date-chip">~2–3 wks after planting</span></td>
+            <td><span class="date-chip">~70–80 days from sow</span></td>
+            <td>Turtle Bed · keep moist during germination</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🍅 Transplant Timeline (already in ground)</div>
+    <div style="overflow-x:auto;">
+      <table class="timeline-table">
+        <thead>
+          <tr>
+            <th>Plant</th>
+            <th>Transplanted</th>
+            <th>Est. First Flowers</th>
+            <th>Est. First Fruit</th>
+            <th>Peak Harvest</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🍅 Tomatoes (all varieties)</td>
+            <td><span class="date-chip">TBD</span></td>
+            <td><span class="date-chip">~mid-July</span></td>
+            <td><span class="date-chip">~Aug 1–15</span></td>
+            <td><span class="date-chip">Aug–Sept</span></td>
+          </tr>
+          <tr>
+            <td>🌶️ Peppers</td>
+            <td><span class="date-chip">TBD</span></td>
+            <td><span class="date-chip">~late July</span></td>
+            <td><span class="date-chip">~Aug 15–Sept</span></td>
+            <td><span class="date-chip">Sept–Oct</span></td>
+          </tr>
+          <tr>
+            <td>🌿 Basil (×4 + Thai)</td>
+            <td><span class="date-chip">5/24</span></td>
+            <td><span class="date-chip">~mid-July</span></td>
+            <td>N/A — harvest leaves</td>
+            <td><span class="date-chip">June–Aug (pinch flowers!)</span></td>
+          </tr>
+          <tr>
+            <td>💜 Lavender</td>
+            <td><span class="date-chip">5/27</span></td>
+            <td><span class="date-chip">~late June–July</span></td>
+            <td>N/A</td>
+            <td><span class="date-chip">July–Aug</span></td>
+          </tr>
+          <tr>
+            <td>🌿 Lemon Thyme</td>
+            <td><span class="date-chip">5/24</span></td>
+            <td>N/A</td>
+            <td>N/A — harvest anytime</td>
+            <td><span class="date-chip">Now!</span></td>
+          </tr>
+          <tr>
+            <td>🌲 Rosemary</td>
+            <td><span class="date-chip">5/27</span></td>
+            <td>N/A</td>
+            <td>N/A — harvest once established</td>
+            <td><span class="date-chip">July onwards</span></td>
+          </tr>
+          <tr>
+            <td>🌿 Italian Parsley</td>
+            <td><span class="date-chip">5/24</span></td>
+            <td>N/A</td>
+            <td>N/A — harvest anytime</td>
+            <td><span class="date-chip">Now!</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: WATERING
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-watering">
+
+  <div class="card">
+    <div class="card-title">💧 Drip Irrigation Settings — All Beds Automated</div>
+    <p style="font-size:0.82rem;color:var(--petal);margin-bottom:16px;">Your drip lines handle daily watering. Manual checks listed below for soil moisture and system health.</p>
+
+    <div class="water-card">
+      <div class="water-title">🐢 Turtle Bed (Tomatoes + Carrots) <span class="drip-badge">DRIP AUTO</span></div>
+      <div class="water-detail">
+        <strong>Frequency:</strong> Daily in summer heat · <strong>Depth:</strong> 6–8" soil moisture<br>
+        <strong>Timer setting:</strong> 20–30 min, early morning (6–8am) to reduce evaporation<br>
+        <strong>Watch for:</strong> Blossom end rot = inconsistent moisture. Keep steady. Increase to twice daily if temps hit 95°F+
+      </div>
+    </div>
+
+    <div class="water-card">
+      <div class="water-title">🦜 Parrot Bed (Peppers) <span class="drip-badge">DRIP AUTO</span></div>
+      <div class="water-detail">
+        <strong>Frequency:</strong> Every 2–3 days · <strong>Note:</strong> Peppers like drier conditions than tomatoes — overwatering = root rot<br>
+        <strong>Timer setting:</strong> 15–20 min, every other day<br>
+        <strong>Watch for:</strong> Yellowing lower leaves = overwatering. Wilting midday in heat = okay, wilting morning = underwater
+      </div>
+    </div>
+
+    <div class="water-card">
+      <div class="water-title">🖤 Goth Bed (Lettuce/Arugula/Cilantro) <span class="drip-badge">DRIP AUTO</span></div>
+      <div class="water-detail">
+        <strong>Frequency:</strong> Every 2–3 days · shade retains moisture longer<br>
+        <strong>Timer setting:</strong> 12–15 min, every 2 days<br>
+        <strong>Watch for:</strong> Soil should stay consistently moist but not soggy. Lettuce wilts fast in heat but recovers.
+      </div>
+    </div>
+
+    <div style="background:rgba(212,172,13,0.1);border:1px solid rgba(212,172,13,0.3);border-radius:10px;padding:14px 16px;margin-bottom:10px;">
+      <div style="font-weight:700;font-size:0.9rem;color:var(--gold);margin-bottom:4px;">🌿 Herbs + Marigolds — Manual Watering</div>
+      <div style="font-size:0.8rem;color:var(--petal);">Your herb trellis gets morning sun and afternoon sun after 1pm but is somewhat shady overall — this reduces evaporation, so water slightly less than full-sun herbs. Marigolds in the Turtle Bed border are also hand-watered.</div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="timeline-table" style="margin-bottom:16px;">
+        <thead>
+          <tr>
+            <th>Herb</th>
+            <th>Frequency</th>
+            <th>Amount</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>🌿 Mint (pot)</td>
+            <td><span class="date-chip">Every 1–2 days</span></td>
+            <td>Until water drains from pot bottom</td>
+            <td>Thirstiest herb. Check pot daily in heat. Never let dry out completely.</td>
+          </tr>
+          <tr>
+            <td>🌿 Basil (×4)</td>
+            <td><span class="date-chip">Every 2–3 days</span></td>
+            <td>Deep soak, let drain</td>
+            <td>Likes consistent moisture. Wilting = needs water NOW. Morning watering best.</td>
+          </tr>
+          <tr>
+            <td>🌶️ Thai Basil</td>
+            <td><span class="date-chip">Every 2–3 days</span></td>
+            <td>Deep soak</td>
+            <td>Same as basil. Slightly more drought tolerant but still thirsty.</td>
+          </tr>
+          <tr>
+            <td>🌿 Italian Parsley</td>
+            <td><span class="date-chip">Every 2–3 days</span></td>
+            <td>Moderate soak</td>
+            <td>Likes consistent moisture. Yellowing = overwatered. Wilting = underwatered.</td>
+          </tr>
+          <tr>
+            <td>🌿 Cilantro (Goth Bed)</td>
+            <td><span class="date-chip">Covered by Goth Bed drip</span></td>
+            <td>—</td>
+            <td>Already on drip in Goth Bed. No manual watering needed.</td>
+          </tr>
+          <tr>
+            <td>🌱 Oregano (seed)</td>
+            <td><span class="date-chip">Every 4–5 days</span></td>
+            <td>Light-moderate soak</td>
+            <td>Prefers to dry slightly between waterings. Overwatering = main killer for oregano.</td>
+          </tr>
+          <tr>
+            <td>🌿 Lemon Thyme</td>
+            <td><span class="date-chip">Every 4–5 days</span></td>
+            <td>Light soak</td>
+            <td>Mediterranean herb — loves dry conditions. Partial shade means less evaporation, water even less than you think.</td>
+          </tr>
+          <tr>
+            <td>🌲 Rosemary</td>
+            <td><span class="date-chip">Every 5–7 days</span></td>
+            <td>Light soak</td>
+            <td>Very drought tolerant. In your shady spot, once a week is plenty. Wet roots = root rot. Let soil dry completely between waterings.</td>
+          </tr>
+          <tr>
+            <td>💜 Lavender</td>
+            <td><span class="date-chip">Every 7–10 days</span></td>
+            <td>Light soak</td>
+            <td>Most drought tolerant of all your herbs. Overwatering kills lavender faster than drought. Soil must be completely dry before watering again. Your shady spot is actually ideal — less risk of overwatering.</td>
+          </tr>
+          <tr>
+            <td>🌼 Marigolds (Turtle Bed border)</td>
+            <td><span class="date-chip">Every 3–4 days</span></td>
+            <td>Moderate soak at base</td>
+            <td>Water at soil level, not on foliage — wet leaves cause fungal issues. In full sun they dry out faster than the bed interior.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="background:rgba(91,155,213,0.1);border:1px solid rgba(91,155,213,0.25);border-radius:8px;padding:12px 14px;font-size:0.8rem;">
+      💡 <strong style="color:#8ec6f0;">General herb rule for your spot:</strong> Morning is the best time to water all herbs — foliage dries before evening, reducing fungal risk. Group your watering days: water basil/parsley/mint together (every 2-3 days), then oregano/thyme together (every 4-5 days), then rosemary/lavender together (weekly).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">✅ Weekly Watering Checks (Manual)</div>
+    <p style="font-size:0.8rem;color:var(--petal);margin-bottom:12px;">Your drip lines do the work, but check these weekly.</p>
+    <div id="waterChecks"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: PLANTING LOG
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-log">
+
+  <div class="card">
+    <div class="card-title">📋 Planting Log & Season Tracker</div>
+    <p style="font-size:0.8rem;color:var(--petal);margin-bottom:12px;">Track what you planted, when, how it did, and what to repeat or avoid.</p>
+    <div style="overflow-x:auto;">
+      <table class="log-table" id="logTable">
+        <thead>
+          <tr>
+            <th>Plant</th>
+            <th>Bed</th>
+            <th>Date</th>
+            <th>Soil</th>
+            <th>Start</th>
+            <th>Source</th>
+            <th>Fertilizer</th>
+            <th>Notes / Results</th>
+            <th>✂️</th>
+          </tr>
+        </thead>
+        <tbody id="logBody">
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" onclick="addLogRow()">+ Add Row</button>
+      <button class="btn" onclick="saveLog()" style="background:rgba(40,116,166,0.3);border-color:#2874a6;color:#85c1e9;">💾 Save Log</button>
+      <button class="btn" onclick="exportLog()" style="background:rgba(74,94,58,0.3);border-color:var(--sage);color:var(--mint);">📤 Export CSV</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: AI CHAT
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-ai">
+
+  <div class="card">
+    <div class="card-title">🤖 AI Garden Assistant</div>
+    <p style="font-size:0.8rem;color:var(--petal);margin-bottom:12px;">Ask anything about your garden. Responses are powered by AI and can be saved to your Q&A library below.</p>
+
+    <div class="chat-container" id="chatContainer">
+      <div class="chat-msg">
+        <div class="chat-avatar avatar-ai">🌱</div>
+        <div class="chat-bubble">
+          Hey Julia! I know your setup — Turtle Bed (tomatoes + carrots + marigolds), Parrot Bed (peppers), Goth Bed (lettuce/arugula/cilantro), and your herb trellis. Ask me anything about spacing, timing, troubleshooting, companions, or what to plant next. I'll give you advice specific to Longmont, CO's climate and your specific beds! 🌿
+          <div class="chat-meta">Garden AI · Ready to help</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-row">
+      <textarea id="chatInput" placeholder="Ask about your garden... e.g. 'Why are my tomato leaves curling?' or 'Should I deadhead my marigolds?'" rows="2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}"></textarea>
+      <button class="btn" onclick="sendChat()" id="chatBtn">Send 🌿</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+      <button class="btn btn-sm" onclick="saveLastQA()">📌 Save Last Q&A</button>
+    </div>
+  </div>
+
+  <div class="card" id="savedQACard" style="display:none;">
+    <div class="card-title">📌 Saved Q&A Library</div>
+    <div id="savedQAList"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: NOTES
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-notes">
+
+  <div class="card">
+    <div class="card-title">📝 Season Notes</div>
+    <p style="font-size:0.8rem;color:var(--petal);margin-bottom:10px;">Observations, what's working, what isn't, ideas for next year.</p>
+    <textarea class="notes-area" id="notesArea" placeholder="e.g. 'Turtle bed tomatoes looking strong as of June 1. Noticed aphids on basil — used neem oil spray. Arugula bolted earlier than expected...'" style="width:100%;min-height:200px;"></textarea>
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn" onclick="saveNotes()">💾 Save Notes</button>
+      <button class="btn" onclick="getAISuggestions()" style="background:rgba(124,111,158,0.3);border-color:var(--goth-accent);color:#b8a8e0;">🤖 Get AI Suggestions from Notes</button>
+    </div>
+    <div id="aiSuggestions" style="margin-top:14px;"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB: TODO
+═══════════════════════════════════════════════ -->
+<div class="tab-content" id="tab-todo">
+
+  <div class="card">
+    <div class="card-title">✅ Still Need to Plant</div>
+    <div id="todoList"></div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+      <input id="newTodoInput" placeholder="Add item..." style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:8px;color:var(--cream);padding:8px 12px;font-size:0.82rem;flex:1;font-family:'Lato',sans-serif;">
+      <button class="btn" onclick="addTodo()">+ Add</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📅 Upcoming Garden Tasks</div>
+    <div id="upcomingTasks"></div>
+  </div>
+
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE & STORAGE
+// ═══════════════════════════════════════════════════════
+const KEY = 'gardenHQ_v1';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
+  catch { return {}; }
+}
+function saveState(s) {
+  localStorage.setItem(KEY, JSON.stringify(s));
+}
+
+let state = loadState();
+if (!state.fertChecks) state.fertChecks = {};
+if (!state.switches) state.switches = {};
+if (!state.waterChecks) state.waterChecks = {};
+if (!state.log) state.log = defaultLog();
+if (!state.notes) state.notes = '';
+if (!state.savedQA) state.savedQA = [];
+if (!state.todos) state.todos = defaultTodos();
+if (!state.chatHistory) state.chatHistory = [];
+
+// ═══════════════════════════════════════════════════════
+// TAB NAVIGATION
+// ═══════════════════════════════════════════════════════
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ═══════════════════════════════════════════════════════
+// FERTILIZER TASKS
+// ═══════════════════════════════════════════════════════
+const fertTasks = {
+  turtle: [
+    { id:'t1', text:'🌱 At planting — Miracle-Gro All Purpose', badge:'fb-mg', meta:'Apply once to soil before transplanting tomatoes' },
+    { id:'t2', text:'Week 2 — Miracle-Gro All Purpose', badge:'fb-mg', meta:'~June 10 · Vegetative growth stage, every 2 weeks' },
+    { id:'t3', text:'Week 4 — Miracle-Gro All Purpose', badge:'fb-mg', meta:'~June 24 · Last high-nitrogen feeding before flowering' },
+    { id:'t4', text:'🌸 SWITCH — First flowers visible? → Tomato-Tone', badge:'fb-tt', meta:'~mid July · Granular, work into soil surface, every 2 weeks' },
+    { id:'t5', text:'Fruiting week 1 — Espoma Tomato-Tone', badge:'fb-tt', meta:'~late July · Apply around base of plants' },
+    { id:'t6', text:'Fruiting week 3 — Espoma Tomato-Tone', badge:'fb-tt', meta:'~Aug 10 · Continue every 2 weeks through harvest' },
+  ],
+  parrot: [
+    { id:'p1', text:'🌱 At planting — Miracle-Gro All Purpose', badge:'fb-mg', meta:'Apply once before transplanting peppers' },
+    { id:'p2', text:'Week 2 — Miracle-Gro All Purpose', badge:'fb-mg', meta:'~June 10 · Vegetative stage' },
+    { id:'p3', text:'Week 4 — Miracle-Gro All Purpose', badge:'fb-mg', meta:'~June 24 · Last high-N feeding' },
+    { id:'p4', text:'🌸 SWITCH — Flowers visible? → Tomato-Tone', badge:'fb-tt', meta:'~late July · Switch when peppers begin flowering' },
+    { id:'p5', text:'Fruiting — Espoma Tomato-Tone', badge:'fb-tt', meta:'~Aug 1 onwards · Every 2 weeks' },
+  ],
+  goth: [
+    { id:'g1', text:'🌱 At planting — 5-1-1 Fish Fertilizer', badge:'fb-511', meta:'Apply at planting for lettuce, arugula, cilantro' },
+    { id:'g2', text:'Week 3 — 5-1-1 Fish Fertilizer', badge:'fb-511', meta:'~June 17 · Leafy greens only need nitrogen, no switch needed' },
+    { id:'g3', text:'Week 6 — 5-1-1 Fish Fertilizer', badge:'fb-511', meta:'~July 8 · Continue every 3 weeks through season' },
+    { id:'g4', text:'Week 9 — 5-1-1 Fish Fertilizer (succession plants)', badge:'fb-511', meta:'~July 29 · For new lettuce/arugula succession plantings' },
+  ],
+  herbs: [
+    { id:'h1', text:'🌱 First feeding (2 weeks after transplant) — 5-1-1 at ½ strength', badge:'fb-511', meta:'~June 7 (for 5/24 plants) · Do NOT use full strength' },
+    { id:'h2', text:'Month 2 — 5-1-1 at ½ strength', badge:'fb-511', meta:'~July 1 · Every 3-4 weeks only. Less = more flavor.' },
+    { id:'h3', text:'Month 3 — 5-1-1 at ½ strength', badge:'fb-511', meta:'~Aug 1 · Avoid feeding lavender + rosemary too much' },
+  ],
+  rosebush: [
+    { id:'rb1', text:'🌹 NOW — Apply Rose-Tone (buds already forming)', badge:'fb-tt', meta:'Work granules into soil around drip line of plant. Water in well.' },
+    { id:'rb2', text:'4–6 weeks later — Rose-Tone', badge:'fb-tt', meta:'~early July · continue every 4-6 weeks' },
+    { id:'rb3', text:'Mid-July — Rose-Tone', badge:'fb-tt', meta:'After first bloom flush, deadhead and feed to encourage repeat blooms' },
+    { id:'rb4', text:'⛔ STOP feeding after Aug 15', badge:'fb-tt', meta:'Allows plant to harden off before Longmont winter. Critical for rose survival.' },
+  ],
+  rosependulina: [
+    { id:'rp1', text:'🌹 NOW — Apply Rose-Tone immediately (fully blooming)', badge:'fb-tt', meta:'Already in bloom — feed Rose-Tone right away. Water in well.' },
+    { id:'rp2', text:'4–6 weeks later — Rose-Tone', badge:'fb-tt', meta:'~early July · tougher plant, won\'t need as heavy feeding as hybrid rose' },
+    { id:'rp3', text:'Mid-Aug — final Rose-Tone feeding', badge:'fb-tt', meta:'Last feed before Aug 15 cutoff. Let rosehips develop after this.' },
+    { id:'rp4', text:'⛔ STOP feeding after Aug 15', badge:'fb-tt', meta:'Harden off for winter. Enjoy the rosehips through fall!' },
+  ],
+  roseofsharon: [
+    { id:'ros1', text:'🌱 NOW — Miracle-Gro All Purpose (vegetative stage)', badge:'fb-mg', meta:'Just greening up — balanced feed now to support leafing out' },
+    { id:'ros2', text:'3 weeks — Miracle-Gro All Purpose', badge:'fb-mg', meta:'~June 18 · continue balanced feeding through vegetative stage' },
+    { id:'ros3', text:'🌸 SWITCH — Buds forming? (~July) → Rose-Tone', badge:'fb-tt', meta:'Switch to Rose-Tone when buds appear to support bloom' },
+    { id:'ros4', text:'Mid-July — Rose-Tone', badge:'fb-tt', meta:'Peak bloom support feeding' },
+    { id:'ros5', text:'⛔ STOP feeding after Aug 15', badge:'fb-tt', meta:'Rose of Sharon is very cold-hardy but benefits from hardening off' },
+  ],
+  fanperiwinkle: [
+    { id:'fp1', text:'🌀 June — Miracle-Gro ½ strength (fan flowers)', badge:'fb-mg', meta:'Monthly feeding only. Full strength will burn these plants.' },
+    { id:'fp2', text:'🪻 June — Miracle-Gro ½ strength every 2-3 wks (periwinkle baskets)', badge:'fb-mg', meta:'Hanging baskets leach nutrients with every watering — more frequent than in-ground' },
+    { id:'fp3', text:'July — Miracle-Gro ½ strength (fan flowers)', badge:'fb-mg', meta:'Monthly. Pinch back leggy stems this month too.' },
+    { id:'fp4', text:'July — Miracle-Gro ½ strength (periwinkle)', badge:'fb-mg', meta:'Every 2-3 weeks for hanging baskets' },
+    { id:'fp5', text:'Aug — Miracle-Gro ½ strength (both)', badge:'fb-mg', meta:'Continue through frost. No need to stop early like roses.' },
+  ],
+  gate: [
+    { id:'gt1', text:'🌱 At planting — Miracle-Gro All Purpose', badge:'fb-mg', meta:'Apply once when planting delphinium. Skip wildflowers — they prefer lean soil.' },
+    { id:'gt2', text:'Week 3 — Miracle-Gro All Purpose (delphinium only)', badge:'fb-mg', meta:'~June 16 · Feed delphinium only, not wildflower area' },
+    { id:'gt3', text:'🌸 SWITCH — Delphinium spiking? → Tomato-Tone', badge:'fb-tt', meta:'~July · Switch to encourage blooms. Stop feeding wildflowers entirely.' },
+    { id:'gt4', text:'After first bloom spike — Tomato-Tone', badge:'fb-tt', meta:'Feed delphinium after deadheading to encourage second flush' },
+  ],
+  mountain: [
+    { id:'mn1', text:'🌱 At planting — Miracle-Gro All Purpose', badge:'fb-mg', meta:'Apply once at transplanting for zinnia, cosmos, columbine' },
+    { id:'mn2', text:'Week 3 — Miracle-Gro All Purpose', badge:'fb-mg', meta:'~June 16 · Vegetative growth stage' },
+    { id:'mn3', text:'🌸 SWITCH — Buds forming? → Tomato-Tone', badge:'fb-tt', meta:'~late June/July · Stop nitrogen, switch to encourage blooms' },
+    { id:'mn4', text:'Blooming — Espoma Tomato-Tone', badge:'fb-tt', meta:'Every 3 weeks through bloom season · skip wildflowers entirely' },
+  ],
+  marigold: [
+    { id:'m1', text:'🌱 At planting — Miracle-Gro All Purpose', badge:'fb-mg', meta:'Apply once when direct sowing seeds' },
+    { id:'m2', text:'Week 3 — Miracle-Gro All Purpose', badge:'fb-mg', meta:'~3 weeks after sowing · Vegetative stage' },
+    { id:'m3', text:'🌸 SWITCH — Budding? → Tomato-Tone', badge:'fb-tt', meta:'~8 wks after sowing · Switch to promote blooms over leaves' },
+    { id:'m4', text:'Blooming — Espoma Tomato-Tone', badge:'fb-tt', meta:'Every 3 weeks through bloom season' },
+  ]
+};
+
+function renderFertTasks(bed, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+  fertTasks[bed].forEach(task => {
+    const checked = state.fertChecks[task.id] || false;
+    const div = document.createElement('div');
+    div.className = 'fert-task' + (checked ? ' done' : '');
+    div.id = 'ft-' + task.id;
+    div.innerHTML = `
+      <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleFert('${task.id}',this)">
+      <div>
+        <div class="task-text">${task.text} <span class="fert-badge ${task.badge}">${task.badge === 'fb-511' ? '5-1-1' : task.badge === 'fb-mg' ? 'Miracle-Gro' : 'Tomato-Tone'}</span></div>
+        <div class="task-meta">${task.meta}</div>
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+function toggleFert(id, cb) {
+  state.fertChecks[id] = cb.checked;
+  const row = document.getElementById('ft-' + id);
+  if (row) row.className = 'fert-task' + (cb.checked ? ' done' : '');
+  saveState(state);
+}
+
+function toggleSwitch(cb, id) {
+  state.switches[id] = cb.checked;
+  const el = document.getElementById(id);
+  if (el) el.className = 'switch-alert' + (cb.checked ? ' done' : '');
+  saveState(state);
+}
+
+// Restore switch states
+function restoreSwitches() {
+  ['sw-turtle','sw-parrot','sw-marigold','sw-mountain','sw-gate','sw-rosebush','sw-rosependulina','sw-roseofsharon'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const cb = el.querySelector('input[type=checkbox]');
+    if (state.switches[id]) { if(cb) cb.checked = true; el.className = 'switch-alert done'; }
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// WATERING CHECKS
+// ═══════════════════════════════════════════════════════
+const waterCheckItems = [
+  { id:'w1', text:'Check drip emitters on Turtle Bed — clear and flowing?' },
+  { id:'w2', text:'Check drip emitters on Parrot Bed — clear and flowing?' },
+  { id:'w3', text:'Check drip emitters on Goth Bed — clear and flowing?' },
+  { id:'w4', text:'💧 Water basil (×4), Thai basil, Italian parsley — every 2-3 days' },
+  { id:'w5', text:'💧 Water mint pot — check daily, water every 1-2 days' },
+  { id:'w6', text:'💧 Water oregano + lemon thyme — every 4-5 days (let dry between)' },
+  { id:'w7', text:'💧 Water rosemary — weekly only, soil must be DRY first' },
+  { id:'w8', text:'💧 Water lavender — every 7-10 days, fully dry between waterings' },
+  { id:'w9', text:'💧 Water marigold border — every 3-4 days at soil level (not foliage)' },
+  { id:'w10', text:'Finger-test Turtle Bed soil (6" depth) — consistently moist?' },
+  { id:'w11', text:'Finger-test Parrot Bed — slight dryness between waterings = good' },
+  { id:'w12', text:'Inspect tomatoes for blossom end rot (dark soft bottom on fruit)' },
+  { id:'w13', text:'Inspect peppers for yellowing lower leaves (overwatering sign)' },
+  { id:'w14', text:'💧 Water delphinium (gate) — every 2-3 days, deep soak at base' },
+  { id:'w15', text:'💧 Mist wildflower seeds (gate + mountain bed) — daily until sprouted' },
+  { id:'w16', text:'🥢 Check delphinium stake — Longmont wind can knock over tall spikes' },
+  { id:'w17', text:'🌹 Water rose bush + rose pendulina — every 3-4 days at base (no overhead!)' },
+  { id:'w18', text:'🌺 Water Rose of Sharon — every 3-4 days while establishing, then weekly' },
+  { id:'w19', text:'🌀 Water fan flowers — every 2-3 days' },
+  { id:'w20', text:'🪻 Check periwinkle hanging baskets — daily finger test, water every 1-2 days in heat' },
+  { id:'w21', text:'🌹 Inspect roses for aphids (new growth) and black spot (lower leaves)' },
+];
+
+function renderWaterChecks() {
+  const container = document.getElementById('waterChecks');
+  if (!container) return;
+  container.innerHTML = '';
+  waterCheckItems.forEach(item => {
+    const checked = state.waterChecks[item.id] || false;
+    const div = document.createElement('div');
+    div.className = 'fert-task' + (checked ? ' done' : '');
+    div.id = 'wc-' + item.id;
+    div.innerHTML = `
+      <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleWater('${item.id}',this)">
+      <div class="task-text">${item.text}</div>`;
+    container.appendChild(div);
+  });
+  const resetBtn = document.createElement('button');
+  resetBtn.className = 'btn btn-sm';
+  resetBtn.style.marginTop = '10px';
+  resetBtn.textContent = '🔄 Reset Weekly Checks';
+  resetBtn.onclick = () => {
+    waterCheckItems.forEach(i => { state.waterChecks[i.id] = false; });
+    saveState(state);
+    renderWaterChecks();
+  };
+  container.appendChild(resetBtn);
+}
+
+function toggleWater(id, cb) {
+  state.waterChecks[id] = cb.checked;
+  const row = document.getElementById('wc-' + id);
+  if (row) row.className = 'fert-task' + (cb.checked ? ' done' : '');
+  saveState(state);
+}
+
+// ═══════════════════════════════════════════════════════
+// PLANTING LOG
+// ═══════════════════════════════════════════════════════
+function defaultLog() {
+  return [
+    { plant:'Basil (×4)', bed:'Herb Trellis', date:'5/24/25', soil:'Fox Ocean', start:'Transplant', source:'Fresh Herb Co.', fert:'5-1-1 ½ str.', notes:'' },
+    { plant:'Thai Basil', bed:'Herb Trellis', date:'5/24/25', soil:'Fox Ocean', start:'Transplant', source:'Fresh Herb Co.', fert:'5-1-1 ½ str.', notes:'' },
+    { plant:'Lavender', bed:'Herb Trellis', date:'5/27/25', soil:'Miracle-Gro', start:'Transplant', source:'Home Depot', fert:'5-1-1 ½ str.', notes:'' },
+    { plant:'Lemon Thyme', bed:'Herb Trellis', date:'5/24/25', soil:'Fox Ocean', start:'Transplant', source:'Fresh Herb Co.', fert:'5-1-1 ½ str.', notes:'' },
+    { plant:'Rosemary', bed:'Herb Trellis', date:'5/27/25', soil:'Miracle-Gro', start:'Transplant', source:'Home Depot', fert:'5-1-1 ½ str.', notes:'' },
+    { plant:'Oregano', bed:'Herb Trellis', date:'5/27/25', soil:'Miracle-Gro', start:'Seed (Aero Garden kit)', source:'Aero Garden', fert:'5-1-1 ½ str.', notes:'' },
+    { plant:'Italian Parsley', bed:'Herb Trellis', date:'5/24/25', soil:'Fox Ocean', start:'Transplant', source:'Fresh Herb Co.', fert:'5-1-1 ½ str.', notes:'' },
+    { plant:'Cilantro', bed:'Goth Bed', date:'5/27/25', soil:'Miracle-Gro', start:'Seed (Aero Garden kit)', source:'Aero Garden', fert:'5-1-1 ½ str.', notes:'Will bolt ~late June. Succession plant every 2-3 weeks.' },
+    { plant:'Mint', bed:'Pot (standalone)', date:'5/27/25', soil:'Miracle-Gro', start:'Seed (Aero Garden kit)', source:'Aero Garden', fert:'5-1-1 ½ str.', notes:'POT ONLY - do not put in beds!' },
+    { plant:'Lettuce', bed:'Goth Bed', date:'5/27/25', soil:'Compost + Fox Ocean + Miracle-Gro mix', start:'Seed', source:'Own seeds', fert:'5-1-1', notes:'Succession plant ~June 27' },
+    { plant:'Arugula/Rocket', bed:'Goth Bed', date:'5/27/25', soil:'Compost + Fox Ocean + Miracle-Gro mix', start:'Seed', source:'Own seeds', fert:'5-1-1', notes:'Succession plant ~June 18. Bolts 4-6 wks.' },
+    { plant:'Habanero', bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Transplant', source:"Maddie's dad", fert:'Miracle-Gro → Tomato-Tone', notes:'North row · hottest · 18" spacing' },
+    { plant:'Jedi Jalapeño (×2)', bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Transplant', source:'Fresh Herb Co.', fert:'Miracle-Gro → Tomato-Tone', notes:'North row + middle row staggered' },
+    { plant:'Serrano', bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Aero Garden seed (~2 months)', source:'Aero Garden', fert:'Miracle-Gro → Tomato-Tone', notes:'North row · started from seed ~March 2025' },
+    { plant:'Guajillo', bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Transplant', source:"Maddie's dad", fert:'Miracle-Gro → Tomato-Tone', notes:'North row · tallest 3–4ft' },
+    { plant:'Espelette', bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Transplant', source:"Maddie's dad", fert:'Miracle-Gro → Tomato-Tone', notes:'Middle row staggered' },
+    { plant:'Hungarian Hot Wax', bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Transplant', source:'Fresh Herb Co.', fert:'Miracle-Gro → Tomato-Tone', notes:'South row · compact 18–24in' },
+    { plant:"Tomasita's", bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Transplant', source:"Maddie's dad", fert:'Miracle-Gro → Tomato-Tone', notes:'South row · compact 18–24in' },
+    { plant:'Shishito', bed:'Parrot Bed', date:'5/28/25', soil:'Miracle-Gro + 2 bags compost', start:'Transplant', source:'Fresh Herb Co.', fert:'Miracle-Gro → Tomato-Tone', notes:'South row · mildest · compact' },
+    { plant:'Radishes', bed:'Parrot Bed', date:'TBD', soil:'Miracle-Gro + 2 bags compost', start:'Seed (not yet planted)', source:'TBD', fert:'None needed', notes:'Direct sow ½" deep, 2" apart in pepper gaps' },
+    { plant:'Mystery Tomato #1 (front left)', bed:'Final Bed (Bed 3)', date:'5/28/25', soil:'Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro all-purpose in-ground', start:'Transplant — previously in ~5 gal pot', source:"Maddie's dad", fert:'Tomato-Tone in hole at planting', notes:'Was growing in large pot — roots may be established. Tomato-Tone added to hole.' },
+    { plant:'Mystery Tomato #2', bed:'Final Bed (Bed 3)', date:'5/28/25', soil:'Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro all-purpose in-ground', start:'Transplant', source:"Maddie's dad", fert:'Tomato-Tone in hole at planting', notes:'Tomato-Tone added to hole at planting' },
+    { plant:'Mystery Tomato #3', bed:'Final Bed (Bed 3)', date:'5/28/25', soil:'Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro all-purpose in-ground', start:'Transplant', source:"Maddie's dad", fert:'⚠️ No Tomato-Tone at planting — add at first watering', notes:'FORGOT Tomato-Tone — came from large pot. Side-dress with Tomato-Tone soon.' },
+    { plant:'San Marzano', bed:'Final Bed (Bed 3)', date:'5/28/25', soil:'Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro all-purpose in-ground', start:'Transplant — previously in ~5 gal pot', source:'Fresh Herb Co.', fert:'Tomato-Tone in hole at planting', notes:'Was in pot with front-left mystery tomato. Tomato-Tone added to hole.' },
+    { plant:'Carrots', bed:'Final Bed (Bed 3)', date:'5/28/25', soil:'Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro all-purpose in-ground', start:'Seed', source:'TBD', fert:'None — benefit from Turtle/Final Bed ambient feeding', notes:'Tucked between tomatoes · 2-3" apart · 6-8" from tomato stems · keep moist until germination 10-21 days' },
+    { plant:'Tomatillo #1', bed:'Final Bed (Bed 3)', date:'5/28/25', soil:'Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro all-purpose in-ground', start:'Transplant', source:"Maddie's dad", fert:'Miracle-Gro → Tomato-Tone at flowering', notes:'Need 2 plants for pollination ✓ — both planted same bed' },
+    { plant:'Tomatillo #2', bed:'Final Bed (Bed 3)', date:'5/28/25', soil:'Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro all-purpose in-ground', start:'Transplant', source:'Home Depot', fert:'Miracle-Gro → Tomato-Tone at flowering', notes:'Need 2 plants for pollination ✓ — both planted same bed' },
+    { plant:'Red Bell Pepper', bed:'Pot (~5 gal, former tomato pot)', date:'5/28/25', soil:'Ace potting soil', start:'Transplant', source:"Maddie's dad", fert:'Miracle-Gro → Tomato-Tone at flowering', notes:'5 gal pot · full sun · water every 2-3 days' },
+    { plant:'Big Jim Pepper', bed:'Pot (~5 gal, former tomato pot)', date:'5/28/25', soil:'Ace potting soil', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone at flowering', notes:'5 gal pot · may want to upsize to 7-10 gal — Big Jim gets large' },
+    { plant:'BC Chiltepin', bed:'Pot (~5 gal, former tomato pot)', date:'5/28/25', soil:'Ace potting soil', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone at flowering', notes:'Rare wild pepper · warmest spot possible · drought tolerant once established · tiny pea-sized fruit drops when ripe' },
+    { plant:'Chimayó Zucchini', bed:'Large cloth pot', date:'5/28/25', soil:'Ace potting soil', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone at first flowers', notes:'Very large cloth pot · water daily in summer heat · heavy feeder · New Mexico heirloom variety' },
+    { plant:'Tomato — Berkeley Tie Dye', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+    { plant:'Tomato — Dr. Dexter', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+    { plant:'Tomato — Carbon', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+    { plant:'Tomato — Ananas', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+    { plant:'Tomato — Cherry Sun Gold', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+    { plant:'Tomato — Cherry Indigo Drops', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+    { plant:'Tomato — Big Beef Plus', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+    { plant:'Tomato — San Marzano (Turtle)', bed:'Turtle Bed', date:'TBD', soil:'Fox Ocean', start:'Transplant', source:'TBD', fert:'Miracle-Gro → Tomato-Tone', notes:'' },
+  ];
+}
+
+function renderLog() {
+  const tbody = document.getElementById('logBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  state.log.forEach((row, i) => {
+    const tr = document.createElement('tr');
+    const fields = ['plant','bed','date','soil','start','source','fert','notes'];
+    fields.forEach(f => {
+      const td = document.createElement('td');
+      if (f === 'notes') {
+        td.innerHTML = `<textarea onchange="updateLog(${i},'${f}',this.value)">${row[f]||''}</textarea>`;
+      } else {
+        td.innerHTML = `<input value="${(row[f]||'').replace(/"/g,'&quot;')}" onchange="updateLog(${i},'${f}',this.value)">`;
+      }
+      tr.appendChild(td);
+    });
+    const tdDel = document.createElement('td');
+    tdDel.innerHTML = `<button class="btn btn-sm btn-danger" onclick="deleteLogRow(${i})">✕</button>`;
+    tr.appendChild(tdDel);
+    tbody.appendChild(tr);
+  });
+}
+
+function updateLog(i, field, val) {
+  state.log[i][field] = val;
+  saveState(state);
+}
+
+function addLogRow() {
+  state.log.push({ plant:'', bed:'', date:'', soil:'', start:'', source:'', fert:'', notes:'' });
+  saveState(state);
+  renderLog();
+}
+
+function deleteLogRow(i) {
+  if (!confirm('Delete this row?')) return;
+  state.log.splice(i, 1);
+  saveState(state);
+  renderLog();
+}
+
+function saveLog() {
+  saveState(state);
+  alert('✅ Log saved!');
+}
+
+function exportLog() {
+  const headers = ['Plant','Bed','Date','Soil','Start','Source','Fertilizer','Notes'];
+  const rows = state.log.map(r => [r.plant,r.bed,r.date,r.soil,r.start,r.source,r.fert,r.notes].map(v => `"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv,' + encodeURIComponent(csv);
+  a.download = 'garden-log-2025.csv';
+  a.click();
+}
+
+// ═══════════════════════════════════════════════════════
+// NOTES
+// ═══════════════════════════════════════════════════════
+function saveNotes() {
+  state.notes = document.getElementById('notesArea').value;
+  saveState(state);
+  alert('✅ Notes saved!');
+}
+
+async function getAISuggestions() {
+  const notes = document.getElementById('notesArea').value;
+  if (!notes.trim()) { alert('Add some notes first!'); return; }
+  const container = document.getElementById('aiSuggestions');
+  container.innerHTML = '<div style="color:var(--sage);font-size:0.83rem;"><span class="spinner"></span>Analyzing your garden notes...</div>';
+
+  const prompt = `You are a gardening expert helping Julia, who gardens in Longmont, Colorado. She has 3 raised beds: Turtle Bed (tomatoes, carrots, marigolds), Parrot Bed (peppers, radishes, green onions), and Goth Bed (lettuce, arugula, cilantro — partial shade). She also has a herb trellis. Her fertilizers are 5-1-1 fish fertilizer, Miracle-Gro All Purpose, and Espoma Tomato-Tone.
+
+Based on her garden notes below, give 3-5 specific, actionable suggestions. Be concise and practical. Format as a simple list.
+
+NOTES: ${notes}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, messages:[{role:'user',content:prompt}] })
+    });
+    const data = await res.json();
+    const text = data.content?.find(b=>b.type==='text')?.text || 'No response';
+    container.innerHTML = `
+      <div style="background:rgba(124,111,158,0.15);border:1px solid rgba(124,111,158,0.4);border-radius:10px;padding:14px;margin-top:4px;">
+        <div style="font-size:0.75rem;color:var(--goth-accent);font-family:'DM Mono',monospace;margin-bottom:8px;">🤖 AI Suggestions based on your notes</div>
+        <div style="font-size:0.83rem;line-height:1.6;white-space:pre-wrap;">${text}</div>
+      </div>`;
+  } catch(e) {
+    container.innerHTML = '<div style="color:#ff8a7a;font-size:0.8rem;">Error reaching AI. Try again.</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// AI CHAT
+// ═══════════════════════════════════════════════════════
+let lastQA = null;
+
+const SYSTEM = `You are a helpful, friendly gardening expert specifically helping Julia in Longmont, Colorado (elevation ~5000ft, hot summers, cold winters, last frost ~mid-April). 
+
+Her garden setup:
+- 🐢 Turtle Bed (6x3ft, full sun): tomatoes (Berkeley Tie Dye, Dr. Dexter, Carbon, Ananas, Cherry Sun Gold, Cherry Indigo Drops, Big Beef Plus, San Marzano), carrots, African marigold border (hand-watered)
+- 🦜 Parrot Bed (full sun, drip, Miracle-Gro + 2 bags compost): transplanted 5/28. North row: habanero, jedi jalapeño, serrano (aero garden seed ~2mo), guajillo. Middle row staggered: jedi jalapeño, espelette. South row: hungarian hot wax, tomasita's, shishito. Sources: Maddie's dad (habanero, espelette, guajillo, tomasita's), Fresh Herb Co (shishito, 2x jedi jalapeño, hungarian hot wax), Aero Garden (serrano). Radishes not yet planted. Chiltepin and puya in own pots.
+- 🖤 Goth Bed (4x2ft, afternoon shade, drip): lettuce, arugula, cilantro (planted 5/27 from seed)
+- 🌿 Herb Trellis (semi-shady: morning sun + sun after 1pm, hand-watered): basil ×4 (Fox Ocean 5/24), Thai basil (Fox Ocean 5/24), lavender (Miracle-Gro 5/27), lemon thyme (Fox Ocean 5/24), rosemary (Miracle-Gro 5/27), oregano (Miracle-Gro seed 5/27), Italian parsley (Fox Ocean 5/24)
+- Mint in standalone pot (Miracle-Gro, seed 5/27) — hand-watered
+- Fertilizers: 5-1-1 fish fert, Miracle-Gro All Purpose (24-8-16), Espoma Tomato-Tone (3-4-6)
+- 🌸 Mountain Bed (small raised, morning sun + mostly shade, manual): zinnia + cosmos (transplant 5/26, from Maddie's dad), columbine (transplant 5/26, from Aero Garden), wildflower seed mix (5/26). Zinnias/cosmos should move to sunnier spot.
+- 🌻 Mini Flower Garden / Gate Garden (in-ground, ~8hrs full sun, manual): delphinium (in-ground ~5/26), wildflower mix scattered (~5/26). Stake delphinium — Longmont wind.
+- 🌹 Roses: rose bush (budding, in-ground), rose pendulina (fully blooming, alpine species), rose of Sharon large pink shrub (just greening up). All hand-watered every 3-4 days at base, never overhead. Feed Rose-Tone every 4-6 weeks, stop Aug 15.
+- 🌀 Fan flowers: large white and purple scaevola, various locations. Water every 2-3 days, Miracle-Gro ½ strength monthly, self-cleaning no deadheading.
+- 🪻 Periwinkle (×2 hanging baskets under tree, dappled shade): check daily, water every 1-2 days, Miracle-Gro ½ strength every 2-3 weeks.
+- Recommended 4th fertilizer: Espoma Rose-Tone for all roses and Rose of Sharon.
+- Herb watering schedule: basil/parsley every 2-3 days, oregano/thyme every 4-5 days, rosemary weekly, lavender every 7-10 days, mint every 1-2 days
+
+Keep responses concise and practical. Use emojis sparingly. Give Longmont-specific advice when relevant.`;
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  addChatMsg('user', msg);
+  input.value = '';
+
+  const chatBtn = document.getElementById('chatBtn');
+  chatBtn.disabled = true;
+  chatBtn.innerHTML = '<span class="spinner"></span>';
+
+  state.chatHistory.push({ role:'user', content: msg });
+  if (state.chatHistory.length > 20) state.chatHistory = state.chatHistory.slice(-20);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: SYSTEM,
+        messages: state.chatHistory
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.find(b=>b.type==='text')?.text || 'Sorry, I had trouble with that.';
+    state.chatHistory.push({ role:'assistant', content: reply });
+    saveState(state);
+    addChatMsg('ai', reply);
+    lastQA = { q: msg, a: reply, date: new Date().toLocaleDateString() };
+  } catch(e) {
+    addChatMsg('ai', '❌ Error reaching AI. Check your connection and try again.');
+  }
+
+  chatBtn.disabled = false;
+  chatBtn.innerHTML = 'Send 🌿';
+}
+
+function addChatMsg(role, text) {
+  const container = document.getElementById('chatContainer');
+  const div = document.createElement('div');
+  div.className = 'chat-msg';
+  div.innerHTML = `
+    <div class="chat-avatar ${role === 'user' ? 'avatar-user' : 'avatar-ai'}">${role === 'user' ? '👩' : '🌱'}</div>
+    <div class="chat-bubble ${role === 'user' ? 'user' : ''}">
+      ${text.replace(/\n/g,'<br>')}
+      <div class="chat-meta">${role === 'user' ? 'You' : 'Garden AI'} · ${new Date().toLocaleTimeString()}</div>
+    </div>`;
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function saveLastQA() {
+  if (!lastQA) { alert('Send a message first!'); return; }
+  state.savedQA.unshift(lastQA);
+  saveState(state);
+  renderSavedQA();
+  document.getElementById('savedQACard').style.display = 'block';
+  alert('📌 Q&A saved!');
+}
+
+function renderSavedQA() {
+  const list = document.getElementById('savedQAList');
+  if (!list) return;
+  if (!state.savedQA.length) { list.innerHTML = '<p style="font-size:0.8rem;color:var(--petal);">No saved Q&As yet.</p>'; return; }
+  list.innerHTML = '';
+  state.savedQA.forEach((qa, i) => {
+    const div = document.createElement('div');
+    div.className = 'saved-qa';
+    div.innerHTML = `
+      <div class="sq">Q: ${qa.q}</div>
+      <div class="sa">${qa.a.replace(/\n/g,'<br>')}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="sm">${qa.date}</div>
+        <button class="btn btn-sm btn-danger" onclick="deleteQA(${i})">✕</button>
+      </div>`;
+    list.appendChild(div);
+  });
+  document.getElementById('savedQACard').style.display = 'block';
+}
+
+function deleteQA(i) {
+  state.savedQA.splice(i, 1);
+  saveState(state);
+  renderSavedQA();
+}
+
+// ═══════════════════════════════════════════════════════
+// TO-DO
+// ═══════════════════════════════════════════════════════
+function defaultTodos() {
+  return [
+    { text:'Plant tomato transplants in Turtle Bed', done:false, priority:'high' },
+    { text:'Plant carrots in Turtle Bed', done:false, priority:'high' },
+    { text:'Direct sow African marigolds along Turtle Bed border', done:false, priority:'high' },
+    { text:'Plant radishes in Parrot Bed gaps', done:false, priority:'med' },
+    { text:'Plant green onions in Goth Bed border', done:false, priority:'med' },
+    { text:'Buy Espoma Tomato-Tone (3rd fertilizer)', done:false, priority:'high' },
+    { text:'Set drip timer for Turtle Bed (20-30 min, 6am daily)', done:false, priority:'high' },
+    { text:'Set drip timer for Parrot Bed (15-20 min, every other day)', done:false, priority:'high' },
+    { text:'Set drip timer for Goth Bed (12-15 min, every 2 days)', done:false, priority:'med' },
+    { text:'Succession plant arugula ~June 18', done:false, priority:'med' },
+    { text:'Succession plant cilantro ~June 11', done:false, priority:'med' },
+    { text:'Get mint transplant from nursery (easier than from seed)', done:false, priority:'low' },
+    { text:'Apply first Miracle-Gro feeding to Turtle + Parrot beds at planting', done:false, priority:'high' },
+  ];
+}
+
+function renderTodos() {
+  const list = document.getElementById('todoList');
+  if (!list) return;
+  list.innerHTML = '';
+  state.todos.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'todo-item' + (item.done ? ' done' : '');
+    div.innerHTML = `
+      <input type="checkbox" ${item.done?'checked':''} onchange="toggleTodo(${i},this)">
+      <span>${item.text}</span>
+      <span class="todo-priority p-${item.priority}">${item.priority}</span>
+      <button class="btn btn-sm btn-danger" onclick="deleteTodo(${i})">✕</button>`;
+    list.appendChild(div);
+  });
+}
+
+function toggleTodo(i, cb) {
+  state.todos[i].done = cb.checked;
+  saveState(state);
+  renderTodos();
+}
+
+function deleteTodo(i) {
+  state.todos.splice(i, 1);
+  saveState(state);
+  renderTodos();
+}
+
+function addTodo() {
+  const input = document.getElementById('newTodoInput');
+  const text = input.value.trim();
+  if (!text) return;
+  state.todos.push({ text, done:false, priority:'med' });
+  saveState(state);
+  renderTodos();
+  input.value = '';
+}
+
+// Upcoming tasks
+function renderUpcoming() {
+  const el = document.getElementById('upcomingTasks');
+  if (!el) return;
+  const tasks = [
+    { date:'~June 1–3', task:'🥗 First arugula sprouts expected' },
+    { date:'~June 3–10', task:'🥬 Lettuce + cilantro sprouts expected' },
+    { date:'~June 7', task:'🌿 First herb feeding (5-1-1 ½ strength)' },
+    { date:'~June 10', task:'🌿 Week 2 Miracle-Gro for Turtle + Parrot beds' },
+    { date:'~June 11', task:'🌿 Succession plant cilantro (will bolt ~late June)' },
+    { date:'~June 17', task:'🖤 Week 3 Goth Bed feeding (5-1-1)' },
+    { date:'~June 18', task:'🥗 Succession plant arugula (first round bolting)' },
+    { date:'~June 20', task:'✂️ First arugula harvest (cut-and-come-again)' },
+    { date:'~June 24', task:'🌿 Last Miracle-Gro feeding before flowers (Turtle + Parrot)' },
+    { date:'~June 25', task:'✂️ First cilantro harvest' },
+    { date:'~June 27', task:'🥬 Succession plant lettuce' },
+    { date:'~Mid July', task:'🍅 Watch for first tomato flowers → SWITCH to Tomato-Tone!' },
+    { date:'~Late July', task:'🌶️ Watch for first pepper flowers → SWITCH to Tomato-Tone!' },
+    { date:'~Aug 1', task:'🍅 First tomatoes expected' },
+  ];
+  el.innerHTML = tasks.map(t => `
+    <div style="display:flex;gap:12px;padding:8px 12px;background:rgba(0,0,0,0.15);border-radius:8px;margin-bottom:6px;font-size:0.82rem;">
+      <span style="font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--sage);white-space:nowrap;padding-top:1px;">${t.date}</span>
+      <span>${t.task}</span>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // Render fertilizer tasks
+  renderFertTasks('mountain', 'fert-mountain');
+  renderFertTasks('gate', 'fert-gate');
+  renderFertTasks('rosebush', 'fert-rosebush');
+  renderFertTasks('rosependulina', 'fert-rosependulina');
+  renderFertTasks('roseofsharon', 'fert-roseofsharon');
+  renderFertTasks('fanperiwinkle', 'fert-fanperiwinkle');
+  renderFertTasks('turtle', 'fert-turtle');
+  renderFertTasks('parrot', 'fert-parrot');
+  renderFertTasks('goth', 'fert-goth');
+  renderFertTasks('herbs', 'fert-herbs');
+  renderFertTasks('marigold', 'fert-marigold');
+  restoreSwitches();
+
+  // Render other sections
+  renderWaterChecks();
+  renderLog();
+  renderTodos();
+  renderUpcoming();
+  renderSavedQA();
+
+  // Restore notes
+  document.getElementById('notesArea').value = state.notes || '';
+
+  // Restore chat history display
+  if (state.chatHistory && state.chatHistory.length > 0) {
+    state.chatHistory.forEach(msg => {
+      if (msg.role !== 'system') addChatMsg(msg.role, msg.content);
+    });
+  }
+});
+</script>
+</body>
+</html>
