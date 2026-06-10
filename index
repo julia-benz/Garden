@@ -562,326 +562,337 @@
 ═══════════════════════════════════════════════ -->
 <div class="tab-content active" id="tab-beds">
 
-  <!-- TURTLE BED -->
-  <div class="bed-card bed-turtle">
-    <span class="bed-badge badge-turtle">🐢 Bed 1</span>
-    <div class="bed-title">The Turtle Bed</div>
-    <div class="bed-subtitle">6ft × 3ft · Full Sun · Drip irrigated · Fox Ocean Soil</div>
+<style>
+.bed-photo-card {
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.25);
+}
+.bed-photo-wrap {
+  position: relative;
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.bed-photo-wrap img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  display: block;
+}
+.bed-photo-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 20px;
+  width: 100%;
+  min-height: 200px;
+  color: rgba(255,255,255,0.3);
+  font-size: 0.82rem;
+  text-align: center;
+  cursor: pointer;
+  border: 2px dashed rgba(255,255,255,0.15);
+  transition: all 0.2s;
+}
+.bed-photo-placeholder:hover { border-color: var(--sage); color: var(--sage); }
+.bed-photo-placeholder .ph-icon { font-size: 2.5rem; opacity: 0.4; }
+.bed-photo-url-bar {
+  display: flex; gap: 6px; padding: 8px 12px;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  align-items: center;
+}
+.bed-photo-url-bar input {
+  flex: 1;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  color: var(--cream);
+  padding: 5px 10px;
+  font-size: 0.72rem;
+  font-family: 'DM Mono', monospace;
+}
+.bed-photo-url-bar input:focus { outline: none; border-color: var(--sage); }
+.bed-photo-url-bar button {
+  background: var(--moss);
+  border: 1px solid var(--sage);
+  border-radius: 6px;
+  color: var(--mint);
+  padding: 5px 12px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+  white-space: nowrap;
+}
+.bed-photo-url-bar button:hover { background: var(--sage); color: var(--soil); }
+.bed-header-bar {
+  padding: 14px 16px 8px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.bed-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.bed-info-table th {
+  background: rgba(255,255,255,0.06);
+  padding: 7px 12px;
+  text-align: left;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--sage);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.bed-info-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: top;
+  color: var(--petal);
+  line-height: 1.4;
+}
+.bed-info-table tr:last-child td { border-bottom: none; }
+.bed-info-table tr:hover td { background: rgba(255,255,255,0.03); }
+.bed-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  padding: 1px 7px;
+  font-size: 0.69rem;
+  margin: 1px 2px 1px 0;
+  font-family: 'DM Mono', monospace;
+  color: var(--mint);
+}
+.alert-row td { background: rgba(240,180,0,0.08) !important; }
+.alert-row td:first-child { color: var(--gold); font-weight: 700; }
+</style>
 
-    <div class="bed-diagram">
-      <div class="diagram-label" style="margin-bottom:8px;">⬆ NORTH (back of bed)</div>
-      <!-- 6x3 ft bed: tomatoes need 18-24" apart, ~2 plants + carrots fill gaps, marigolds border -->
-      <div style="display:grid; grid-template-columns: repeat(10,1fr); gap:5px; max-width:500px; margin:0 auto;">
-        <!-- Row 1: marigold border top -->
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <!-- Row 2: marigold | tomato | carrot | carrot | tomato | carrot | carrot | tomato | carrot | marigold -->
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Berkeley Tie Dye · 24" from others</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart, 6-8" from tomato</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Dr. Dexter · 24" from others</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Carbon · 24" from others</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot — 2-3" apart</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <!-- Row 3: marigold | carrot | carrot | carrot | carrot | carrot | carrot | carrot | carrot | marigold -->
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <!-- Row 4: marigold border bottom -->
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Ananas · 24" spacing</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Cherry Sun Gold · spacing 24"</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c; font-size:1.4rem;">🍅<span class="tooltip">Tomato — Cherry Indigo Drops · 24"</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <!-- Row 5: marigold border bottom -->
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;">🍅<span class="tooltip">Big Beef Plus · place south end</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;">🍅<span class="tooltip">San Marzano · place south end</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.15);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;">🌼<span class="tooltip">Marigold (border)</span></div>
-      </div>
-      <div class="diagram-label">⬇ SOUTH (front/access) · Hover plants for details</div>
-    </div>
-
-    <div style="margin-top:10px; font-size:0.78rem; color:var(--petal);">
-      <strong>Tomato Varieties:</strong>
-      <span class="tag">🍅 Berkeley Tie Dye</span>
-      <span class="tag">🍅 Dr. Dexter</span>
-      <span class="tag">🍅 Carbon</span>
-      <span class="tag">🍅 Ananas</span>
-      <span class="tag">🍅 Cherry Sun Gold</span>
-      <span class="tag">🍅 Cherry Indigo Drops</span>
-      <span class="tag">🍅 Big Beef Plus</span>
-      <span class="tag">🍅 San Marzano</span>
+<!-- ── TURTLE BED ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge badge-turtle">🐢 Turtle Bed — Bed 1</span>
+    <span style="font-size:0.78rem;color:var(--petal);">6×3 ft · Full Sun · Drip irrigated · Fox Ocean soil</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Turtle.HEIC" alt="Turtle Bed" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;">
+      <div class="ph-icon">📷</div><div>Turtle.HEIC not found in repository</div>
     </div>
   </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Plant</th><th>Variety / Detail</th><th>Date</th><th>Source</th><th>Spacing</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>🍅 Tomato</td><td><span class="bed-tag">Berkeley Tie Dye</span><span class="bed-tag">Dr. Dexter</span><span class="bed-tag">Carbon</span><span class="bed-tag">Ananas</span><span class="bed-tag">Cherry Sun Gold</span><span class="bed-tag">Cherry Indigo Drops</span><span class="bed-tag">Big Beef Plus</span><span class="bed-tag">San Marzano</span></td><td>TBD</td><td>TBD</td><td>18–24"</td><td>Plant deep, strip lower leaves. Tomato-Tone in hole.</td></tr>
+      <tr><td>🥕 Carrots</td><td>Variety TBD</td><td>TBD</td><td>TBD</td><td>2–3" apart, 6–8" from tomato stems</td><td>Keep moist 10–21 days until germination. Thin to 3–4" once sprouted.</td></tr>
+      <tr><td>🌼 Marigolds</td><td>African (your variety)</td><td>TBD</td><td>Own seeds</td><td>12–18" along border, 8–12" from carrots</td><td>Direct sow ¼" deep. Blooms 8–10 wks. Border only — keep away from carrot roots.</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer switch</td><td colspan="5">Miracle-Gro All Purpose now → switch to Tomato-Tone at first flowers</td></tr>
+    </tbody>
+  </table>
+</div>
 
-  <!-- PARROT BED -->
-  <div class="bed-card bed-parrot">
-    <span class="bed-badge badge-parrot">🦜 Bed 2</span>
-    <div class="bed-title">The Parrot Bed</div>
-    <div class="bed-subtitle">Full Sun · Drip irrigated · Miracle-Gro soil + 2 bags compost · Transplanted 5/28</div>
-
-    <div class="bed-diagram">
-      <div class="diagram-label" style="margin-bottom:8px;">⬆ NORTH (back — hottest peppers)</div>
-      <div style="display:grid; grid-template-columns: repeat(4,1fr); gap:8px; max-width:380px; margin:0 auto;">
-
-        <!-- ROW 1: NORTH — hottest 4 -->
-        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Habanero · 100k–350k SHU · 2–3ft · transplant 5/28 · Maddie's dad</span></div>
-        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Jedi Jalapeño · 2,500–8k SHU · 2–3ft · transplant 5/28 · Fresh Herb Co.</span></div>
-        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Serrano · 10k–23k SHU · 2–3ft · from Aero Garden seed ~2 months ago</span></div>
-        <div class="plant-slot" style="background:rgba(200,30,30,0.35);border-color:#e03030;font-size:1.3rem;">🌶️<span class="tooltip">Guajillo · 2,500–5k SHU · 3–4ft · transplant 5/28 · Maddie's dad</span></div>
-
-        <!-- ROW 2: MIDDLE — staggered, medium heat -->
-        <div class="plant-slot" style="background:rgba(230,126,34,0.3);border-color:#e67e22;font-size:1.3rem;">🌶️<span class="tooltip">Jedi Jalapeño · 2,500–8k SHU · 2–3ft · transplant 5/28 · Fresh Herb Co.</span></div>
-        <div class="plant-slot" style="background:rgba(230,126,34,0.3);border-color:#e67e22;font-size:1.3rem;">🌶️<span class="tooltip">Espelette · 1,500–2,500 SHU · 2–3ft · transplant 5/28 · Maddie's dad</span></div>
-        <div style="background:transparent;border:none;"></div>
-        <div style="background:transparent;border:none;"></div>
-
-        <!-- ROW 3: SOUTH — mildest & most compact -->
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;font-size:1.3rem;">🌶️<span class="tooltip">Hungarian Hot Wax · 1k–15k SHU · 18–24in · transplant 5/28 · Fresh Herb Co.</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;font-size:1.3rem;">🌶️<span class="tooltip">Tomasita's · ~1–2k SHU · 18–24in · transplant 5/28 · Maddie's dad</span></div>
-        <div class="plant-slot" style="background:rgba(243,156,18,0.25);border-color:#f39c12;font-size:1.3rem;">🌶️<span class="tooltip">Shishito · 50–200 SHU · 18–24in · transplant 5/28 · Fresh Herb Co.</span></div>
-        <div style="background:transparent;border:none;"></div>
-
-      </div>
-      <div class="diagram-label">⬇ SOUTH (front — mildest) · Hover for variety details · Radishes TBD</div>
-    </div>
-
-    <div style="margin-top:12px;">
-      <div style="font-size:0.78rem;color:var(--petal);margin-bottom:6px;"><strong>Sources:</strong></div>
-      <div style="font-size:0.75rem;line-height:1.8;">
-        <span class="tag">🌶️ Maddie's dad — Habanero, Espelette, Guajillo, Tomasita's</span>
-        <span class="tag">🌿 Fresh Herb Co. — Shishito, Jedi Jalapeño (×2), Hungarian Hot Wax</span>
-        <span class="tag">🪴 Aero Garden seed — Serrano (started ~2 months ago)</span>
-      </div>
-      <div style="font-size:0.78rem;color:var(--petal);margin-top:8px;"><strong>Soil:</strong> Miracle-Gro + 2 bags compost · <strong>Planted:</strong> 5/28/25</div>
-    </div>
-
-    <div style="background:rgba(212,172,13,0.12);border:1px solid rgba(212,172,13,0.4);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:0.8rem;">
-      🌱 <strong style="color:var(--gold);">Radishes not yet planted</strong> — direct sow ½" deep, 2" apart in gaps between peppers when ready.
+<!-- ── PARROT BED ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge badge-parrot">🦜 Parrot Bed — Bed 2</span>
+    <span style="font-size:0.78rem;color:var(--petal);">Full Sun · Drip irrigated · Miracle-Gro + 2 bags compost · Planted 5/28</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Parrot.HEIC" alt="Parrot Bed" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;">
+      <div class="ph-icon">📷</div><div>Parrot.HEIC not found in repository</div>
     </div>
   </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Plant</th><th>Variety</th><th>Row</th><th>Source</th><th>Heat (SHU)</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>🌶️ Habanero</td><td>Habanero</td><td>North (hottest)</td><td>Maddie's dad</td><td>100k–350k</td><td>Transplant 5/28 · 18" spacing</td></tr>
+      <tr><td>🌶️ Jedi Jalapeño</td><td>Jedi Jalapeño ×2</td><td>North + Middle</td><td>Fresh Herb Co.</td><td>2,500–8k</td><td>Transplant 5/28 · staggered rows</td></tr>
+      <tr><td>🌶️ Serrano</td><td>Serrano</td><td>North</td><td>Aero Garden (~2 mo seed)</td><td>10k–23k</td><td>Started from seed ~March 2025</td></tr>
+      <tr><td>🌶️ Guajillo</td><td>Guajillo</td><td>North</td><td>Maddie's dad</td><td>2,500–5k</td><td>Tallest pepper 3–4ft · watch for shading</td></tr>
+      <tr><td>🌶️ Espelette</td><td>Espelette</td><td>Middle (staggered)</td><td>Maddie's dad</td><td>1,500–2,500</td><td>French specialty pepper</td></tr>
+      <tr><td>🌶️ Hungarian Hot Wax</td><td>Hungarian Hot Wax</td><td>South (mildest)</td><td>Fresh Herb Co.</td><td>1k–15k</td><td>Compact 18–24"</td></tr>
+      <tr><td>🌶️ Tomasita's</td><td>Tomasita's</td><td>South</td><td>Maddie's dad</td><td>~1–2k</td><td>Compact 18–24"</td></tr>
+      <tr><td>🌶️ Shishito</td><td>Shishito</td><td>South (mildest)</td><td>Fresh Herb Co.</td><td>50–200</td><td>Compact · occasional surprise hot one</td></tr>
+      <tr><td>🌱 Radishes</td><td>TBD</td><td>Gaps between peppers</td><td>TBD</td><td>—</td><td>Not yet planted · ½" deep, 2" apart · fine to plant now</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer switch</td><td colspan="5">Miracle-Gro now → Tomato-Tone at first pepper flowers</td></tr>
+    </tbody>
+  </table>
+</div>
 
-  <!-- FINAL BED (BED 3) -->
-  <div class="bed-card" style="background:linear-gradient(135deg,#1e2d1e,#2a3d2a);border:2px solid #5a8a5a;">
-    <span class="bed-badge" style="background:#3d6b3d;">🍅🌶️ Bed 3</span>
-    <div class="bed-title">The Final Bed</div>
-    <div class="bed-subtitle">Full Sun · Drip irrigated · Mountain Country dairy manure compost (×2, 1cu ft each) + Kellogg all natural + Miracle-Gro all-purpose in-ground · Planted 5/28</div>
+<!-- ── FINAL BED ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge" style="background:#3d6b3d;">🍅 Final Bed — Bed 3</span>
+    <span style="font-size:0.78rem;color:var(--petal);">Full Sun · Drip irrigated · Mountain Country dairy manure compost (×2) + Kellogg all natural + Miracle-Gro in-ground · Planted 5/28</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Final.HEIC" alt="Final Bed" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;"><div class="ph-icon">📷</div><div>Final.HEIC not found in repository</div></div>
+  </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Plant</th><th>Variety / Detail</th><th>Date</th><th>Source</th><th>Spacing</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>🍅 Mystery Tomato #1</td><td>Unknown — front left</td><td>5/28/25</td><td>Maddie's dad</td><td>18–24"</td><td>Previously in ~5 gal pot. Tomato-Tone in hole at planting.</td></tr>
+      <tr><td>🍅 Mystery Tomato #2</td><td>Unknown</td><td>5/28/25</td><td>Maddie's dad</td><td>18–24"</td><td>Tomato-Tone in hole at planting.</td></tr>
+      <tr class="alert-row"><td>⚠️ Mystery Tomato #3</td><td>Unknown</td><td>5/28/25</td><td>Maddie's dad</td><td>18–24"</td><td>NO Tomato-Tone at planting — side-dress with Tomato-Tone ASAP</td></tr>
+      <tr><td>🍅 San Marzano</td><td>San Marzano</td><td>5/28/25</td><td>Fresh Herb Co.</td><td>18–24"</td><td>Previously in ~5 gal pot with Mystery #1. Tomato-Tone in hole.</td></tr>
+      <tr><td>🫐 Tomatillo #1</td><td>Tomatillo</td><td>5/28/25</td><td>Maddie's dad</td><td>18–24"</td><td>Pollination pair ✓ — both tomatillos in same bed</td></tr>
+      <tr><td>🫐 Tomatillo #2</td><td>Tomatillo</td><td>5/28/25</td><td>Home Depot</td><td>18–24"</td><td>Pollination pair ✓</td></tr>
+      <tr><td>🥕 Carrots</td><td>Variety TBD</td><td>5/28/25</td><td>TBD</td><td>2–3" apart, 6–8" from tomatoes</td><td>Tucked between tomatoes. Keep moist 10–21 days. Don't extra-fertilize — soil is very rich already.</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer switch</td><td colspan="5">Miracle-Gro now → Tomato-Tone at first flowers. Tomato-Tone already applied to most holes.</td></tr>
+    </tbody>
+  </table>
+</div>
 
-    <div style="background:rgba(255,180,0,0.12);border:1px solid rgba(255,180,0,0.4);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:0.8rem;">
-      ⚠️ <strong style="color:var(--gold);">Missed Tomato-Tone on Mystery Tomato #3</strong> — side-dress with Tomato-Tone granules around the base at next watering. All others had Tomato-Tone added to the planting hole.
-    </div>
+<!-- ── GOTH BED ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge badge-goth">🖤 Goth Bed</span>
+    <span style="font-size:0.78rem;color:var(--petal);">4×2 ft · Morning + afternoon sun, significant afternoon shade · Drip irrigated · Compost + Fox Ocean + Miracle-Gro mix</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Goth.HEIC" alt="Goth Bed" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;"><div class="ph-icon">📷</div><div>Goth.HEIC not found in repository</div></div>
+  </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Plant</th><th>Detail</th><th>Date</th><th>Source</th><th>Spacing</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>🥬 Lettuce</td><td>Variety TBD</td><td>5/27/25 seed</td><td>Own seeds</td><td>8–10"</td><td>Cut-and-come-again. Succession plant ~June 27.</td></tr>
+      <tr><td>🥗 Arugula / Rocket</td><td>Variety TBD</td><td>5/27/25 seed</td><td>Own seeds</td><td>6–8"</td><td>Bolts 4–6 weeks. Succession plant ~June 18.</td></tr>
+      <tr><td>🌿 Cilantro</td><td>Aero Garden variety</td><td>5/27/25 seed</td><td>Aero Garden kit</td><td>6–8"</td><td>Will bolt ~late June. Replant every 2–3 wks. Shade slows bolting.</td></tr>
+      <tr><td>🌱 Green Onions</td><td>TBD</td><td>TBD</td><td>TBD / store-bought roots</td><td>2–3"</td><td>Not yet planted. Border row.</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer</td><td colspan="5">5-1-1 fish fertilizer at ½ strength every 3 weeks. No switch needed — leafy greens only.</td></tr>
+    </tbody>
+  </table>
+</div>
 
-    <div class="bed-diagram">
-      <div class="diagram-label" style="margin-bottom:8px;">⬆ NORTH (back)</div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:400px;margin:0 auto;">
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;font-size:1.3rem;">🍅<span class="tooltip">Mystery Tomato #1 (front left) — Maddie's dad · previously in ~5 gal pot · Tomato-Tone in hole</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot — planted 5/28 · 2-3" apart · 6-8" from tomato stems</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;font-size:1.3rem;">🍅<span class="tooltip">Mystery Tomato #2 — Maddie's dad · Tomato-Tone in hole</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.3);border-color:#e74c3c;font-size:1.3rem;">🍅<span class="tooltip">Mystery Tomato #3 — Maddie's dad · ⚠️ NO Tomato-Tone at planting — side-dress ASAP</span></div>
+<!-- ── HERB TRELLIS ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge badge-herbs">🌿 Herb Trellis</span>
+    <span style="font-size:0.78rem;color:var(--petal);">Semi-shady · Morning sun + after 1pm · Manual watering · Various soils</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Herb.HEIC" alt="Herb Trellis" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;"><div class="ph-icon">📷</div><div>Herb.HEIC not found in repository</div></div>
+  </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Herb</th><th>Date</th><th>Start</th><th>Soil</th><th>Source</th><th>Water Frequency</th></tr></thead>
+    <tbody>
+      <tr><td>🌿 Basil ×4</td><td>5/24/25</td><td>Transplant</td><td>Fox Ocean</td><td>Fresh Herb Co.</td><td>Every 2–3 days</td></tr>
+      <tr><td>🌿 Thai Basil</td><td>5/24/25</td><td>Transplant</td><td>Fox Ocean</td><td>Fresh Herb Co.</td><td>Every 2–3 days</td></tr>
+      <tr><td>🌿 Italian Parsley</td><td>5/24/25</td><td>Transplant</td><td>Fox Ocean</td><td>Fresh Herb Co.</td><td>Every 2–3 days</td></tr>
+      <tr><td>🌿 Lemon Thyme</td><td>5/24/25</td><td>Transplant</td><td>Fox Ocean</td><td>Fresh Herb Co.</td><td>Every 4–5 days</td></tr>
+      <tr><td>💜 Lavender</td><td>5/27/25</td><td>Transplant</td><td>Miracle-Gro</td><td>Home Depot</td><td>Every 7–10 days (fully dry first)</td></tr>
+      <tr><td>🌲 Rosemary</td><td>5/27/25</td><td>Transplant</td><td>Miracle-Gro</td><td>Home Depot</td><td>Weekly (dry between)</td></tr>
+      <tr><td>🌱 Oregano</td><td>5/27/25</td><td>Seed</td><td>Miracle-Gro</td><td>Aero Garden kit</td><td>Every 4–5 days</td></tr>
+      <tr><td>🌿 Mint</td><td>5/27/25</td><td>Seed</td><td>Miracle-Gro</td><td>Aero Garden kit</td><td>Every 1–2 days · POT ONLY</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer</td><td colspan="5">5-1-1 fish at ½ strength every 3–4 weeks. Heavy feeding = less flavor. Never use full-strength Miracle-Gro on herbs.</td></tr>
+    </tbody>
+  </table>
+</div>
 
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(192,57,43,0.25);border-color:#c0392b;font-size:1.3rem;">🍅<span class="tooltip">San Marzano — Fresh Herb Co. · previously in ~5 gal pot · Tomato-Tone in hole</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(100,160,80,0.3);border-color:#5a9a5a;font-size:1.3rem;">🫐<span class="tooltip">Tomatillo #1 — Maddie's dad · pollination pair ✓</span></div>
-        <div class="plant-slot" style="background:rgba(100,160,80,0.3);border-color:#5a9a5a;font-size:1.3rem;">🫐<span class="tooltip">Tomatillo #2 — Home Depot · pollination pair ✓</span></div>
+<!-- ── MOUNTAIN BED ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge" style="background:#6b4fa0;">⛰️ Mountain Bed</span>
+    <span style="font-size:0.78rem;color:var(--petal);">Small raised bed · Morning sun only · Mostly shaded · Manual watering · Transplanted 5/26</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Mountain.HEIC" alt="Mountain Bed" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;"><div class="ph-icon">📷</div><div>Mountain.HEIC not found in repository</div></div>
+  </div>
+  <div style="background:rgba(240,180,0,0.1);border-top:1px solid rgba(240,180,0,0.3);padding:8px 14px;font-size:0.78rem;color:#f5d97a;">
+    ⚠️ Zinnias and cosmos need 6–8 hrs full sun — consider moving them. Columbines are happy here in the shade.
+  </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Plant</th><th>Detail</th><th>Date</th><th>Source</th><th>Sun Needs</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>🌺 Zinnia</td><td>Variety TBD</td><td>5/26/25 transplant</td><td>Maddie's dad</td><td>Full sun ⚠️</td><td>Consider moving to sunnier spot. Will be leggy in shade.</td></tr>
+      <tr><td>🌸 Cosmos</td><td>Variety TBD</td><td>5/26/25 transplant</td><td>Maddie's dad</td><td>Full sun ⚠️</td><td>Consider moving. Self-seeds for next year if left to go to seed.</td></tr>
+      <tr><td>💜 Columbine</td><td>From Aero Garden seed</td><td>5/26/25 transplant</td><td>Aero Garden</td><td>Shade ✓</td><td>Happy here. Won't bloom until spring 2026 — first year = root establishment.</td></tr>
+      <tr><td>🌱 Wildflower Mix</td><td>Seed mix</td><td>5/26/25 seed</td><td>Seed mix</td><td>Most want sun ⚠️</td><td>Daily mist until germination. Thin to 6" once sprouted.</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer</td><td colspan="5">Miracle-Gro now → switch to Tomato-Tone when buds form. Skip wildflowers entirely.</td></tr>
+    </tbody>
+  </table>
+</div>
 
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-        <div class="plant-slot" style="background:rgba(255,165,0,0.2);border-color:#e67e22;">🥕<span class="tooltip">Carrot</span></div>
-      </div>
-      <div class="diagram-label">⬇ SOUTH (front) · Hover for details · 🥕 Carrots fill gaps · Marigolds still a great border addition</div>
-    </div>
+<!-- ── MINI FLOWER GARDEN (GATE) ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge" style="background:#c47e1a;">🌻 Mini Flower Garden — Gate</span>
+    <span style="font-size:0.78rem;color:var(--petal);">In-ground · ~8 hrs full sun · Manual watering · Planted ~5/26</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Ground_Flower.HEIC" alt="Gate Flower Garden" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;"><div class="ph-icon">📷</div><div>Ground_Flower.HEIC not found in repository</div></div>
+  </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Plant</th><th>Detail</th><th>Date</th><th>Water</th><th>Sun</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>💙 Delphinium</td><td>In-ground</td><td>~5/26/25</td><td>Every 2–3 days deep soak</td><td>Full sun ✓</td><td>STAKE NOW — Longmont wind. Toxic to pets (Cashew). Deadhead for 2nd flush.</td></tr>
+      <tr><td>🌱 Wildflower Mix</td><td>Scattered seed</td><td>~5/26/25</td><td>Daily mist until sprouted</td><td>Full sun ✓</td><td>No fertilizer once established. Thin to 6" once sprouted.</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer</td><td colspan="5">Miracle-Gro now (delphinium only) → Tomato-Tone when spiking. Never fertilize wildflowers.</td></tr>
+    </tbody>
+  </table>
+</div>
 
-    <div style="margin-top:10px;font-size:0.78rem;color:var(--petal);">
-      <strong>Sources:</strong>
-      <span class="tag">🍅 Maddie's dad — Mystery tomatoes ×3, Tomatillo #1</span>
-      <span class="tag">🌿 Fresh Herb Co. — San Marzano</span>
-      <span class="tag">🏪 Home Depot — Tomatillo #2</span>
-    </div>
-    <div style="margin-top:8px;font-size:0.78rem;color:var(--sage);">
-      💡 <strong>Still room for:</strong> marigolds (border) · radishes (fast crop, harvest before tomatoes need space)
+<!-- ── FAN FLOWERS ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge" style="background:#1a7a7a;">🌀 Fan Flowers</span>
+    <span style="font-size:0.78rem;color:var(--petal);">Large white & purple Scaevola · In-ground · Manual watering · Established</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <img src="Fan.HEIC" alt="Fan Flowers" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="bed-photo-placeholder" style="display:none;"><div class="ph-icon">📷</div><div>Fan.HEIC not found in repository</div></div>
+  </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Detail</th><th>Info</th></tr></thead>
+    <tbody>
+      <tr><td>Variety</td><td>Scaevola — large white and purple</td></tr>
+      <tr><td>Count</td><td>5 plants</td></tr>
+      <tr><td>Watering</td><td>Every 2–3 days. Drought tolerant but blooms best with consistent moisture.</td></tr>
+      <tr><td>Fertilizer</td><td>Miracle-Gro at ½ strength monthly. No switch needed.</td></tr>
+      <tr><td>Deadheading</td><td>Self-cleaning — none needed.</td></tr>
+      <tr><td>Mid-summer care</td><td>Pinch back leggy stems in July to keep bushy.</td></tr>
+      <tr><td>Bloom season</td><td>Now through frost.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── POTS ── -->
+<div class="bed-photo-card">
+  <div class="bed-header-bar">
+    <span class="bed-badge" style="background:#5a4a8a;">🪴 Container Plants</span>
+    <span style="font-size:0.78rem;color:var(--petal);">Various pots · Full sun · Manual watering · All planted 5/28</span>
+  </div>
+  <div class="bed-photo-wrap">
+    <div class="bed-photo-placeholder">
+      <div class="ph-icon">📷</div><div>No photo file specified for pots yet</div>
     </div>
   </div>
-
-  <!-- POTS -->
-  <div class="bed-card" style="background:linear-gradient(135deg,#1e1e2e,#2e2e40);border:2px solid #7a6aaa;">
-    <span class="bed-badge" style="background:#5a4a8a;">🪴 Pots</span>
-    <div class="bed-title">Container Plants</div>
-    <div class="bed-subtitle">Various · Full sun placement · Manual watering</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;margin-top:10px;">
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e03030;">
-        <div style="font-size:1.4rem;">🌶️</div>
-        <div style="font-size:0.78rem;font-weight:700;color:#f5a0a0;">Red Bell Pepper</div>
-        <div style="font-size:0.68rem;color:var(--petal);">~5 gal pot · Ace potting soil</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Maddie's dad · 5/28</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e07030;">
-        <div style="font-size:1.4rem;">🌶️</div>
-        <div style="font-size:0.78rem;font-weight:700;color:#ffb87a;">Big Jim Pepper</div>
-        <div style="font-size:0.68rem;color:var(--petal);">~5 gal pot · Ace potting soil</div>
-        <div style="font-size:0.68rem;color:#ffb87a;margin-top:2px;">⚠️ May need 7-10 gal</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e05050;">
-        <div style="font-size:1.4rem;">🌶️</div>
-        <div style="font-size:0.78rem;font-weight:700;color:#f08080;">BC Chiltepin</div>
-        <div style="font-size:0.68rem;color:var(--petal);">~5 gal pot · Ace potting soil</div>
-        <div style="font-size:0.68rem;color:#a8e6a3;margin-top:2px;">Warmest spot! Rare variety</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #5a9a5a;">
-        <div style="font-size:1.4rem;">🥒</div>
-        <div style="font-size:0.78rem;font-weight:700;color:#a8e6a3;">Chimayó Zucchini</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Large cloth pot · Ace potting soil</div>
-        <div style="font-size:0.68rem;color:var(--sage);">NM heirloom · 5/28</div>
-        <div style="font-size:0.68rem;color:#ffb87a;margin-top:2px;">Water daily in heat!</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;border-left:3px solid #e08030;">
-        <div style="font-size:1.4rem;">🌿</div>
-        <div style="font-size:0.78rem;font-weight:700;color:#f5d97a;">Puya (planned)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">5 gal pot · TBD</div>
-        <div style="font-size:0.68rem;color:#ffb87a;margin-top:2px;">Not yet planted</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- GOTH BED -->
-  <div class="bed-card bed-goth">
-    <span class="bed-badge badge-goth">🖤 Bed 3</span>
-    <div class="bed-title">The Goth Bed</div>
-    <div class="bed-subtitle">4ft × 2ft · Morning + afternoon sun, significant afternoon shade · Drip irrigated</div>
-
-    <div class="bed-diagram">
-      <div class="diagram-label" style="margin-bottom:8px;">Shaded bed — cool crops thrive here</div>
-      <div style="display:grid; grid-template-columns: repeat(6,1fr); gap:5px; max-width:320px; margin:0 auto;">
-        <!-- green onion row -->
-        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion — 2-3" spacing, border row</span></div>
-        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
-        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
-        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
-        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
-        <div class="plant-slot" style="background:rgba(124,111,158,0.25);border-color:#7c6f9e;">🌱<span class="tooltip">Green Onion</span></div>
-        <!-- lettuce / arugula mix -->
-        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce — 8-10" spacing, planted 5/27 from seed</span></div>
-        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula/Rocket — 6-8" spacing, planted 5/27</span></div>
-        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
-        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
-        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
-        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
-        <!-- cilantro -->
-        <div class="plant-slot" style="background:rgba(100,140,80,0.3);border-color:#7a9e6e;">🌿<span class="tooltip">Cilantro — planted 5/27 from seed · benefits from shade</span></div>
-        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
-        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
-        <div class="plant-slot" style="background:rgba(74,94,58,0.35);border-color:#7a9e6e;">🥬<span class="tooltip">Lettuce</span></div>
-        <div class="plant-slot" style="background:rgba(60,80,40,0.35);border-color:#a8c89a;">🥗<span class="tooltip">Arugula</span></div>
-        <div class="plant-slot" style="background:rgba(100,140,80,0.3);border-color:#7a9e6e;">🌿<span class="tooltip">Cilantro</span></div>
-      </div>
-      <div class="diagram-label">Hover plants for spacing · 🌿 Cilantro loves this spot</div>
-    </div>
-
-    <div style="background:rgba(212,172,13,0.12);border:1px solid rgba(212,172,13,0.4);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:0.8rem;">
-      ⚠️ <strong style="color:var(--gold);">Successive Planting Reminder:</strong> Arugula bolts in 4–6 weeks. Plant a second round of arugula + lettuce around <strong>June 25</strong>. Cilantro will bolt by late June — replant every 2–3 weeks for continuous harvest.
-    </div>
-  </div>
-
-  <!-- HERBS -->
-  <div class="bed-card bed-herbs">
-    <span class="bed-badge badge-herbs">🌿 Herbs</span>
-    <div class="bed-title">Herb Trellis + Pots</div>
-    <div class="bed-subtitle">Various soils · All transplants unless noted</div>
-
-    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); gap:10px; margin-top:8px;">
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌿</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Basil (×4)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌶️</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Thai Basil (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">💜</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Lavender (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Home Depot</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌿</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Lemon Thyme (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌲</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Rosemary (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Home Depot</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌱</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Oregano (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27 seed</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Aero Garden kit</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌿</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Italian Parsley (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Fox Ocean · 5/24</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Fresh Herb Co.</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌿</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Cilantro (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27 seed</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Aero Garden kit · Goth Bed</div>
-      </div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-        <div style="font-size:1.5rem;">🌿</div>
-        <div style="font-size:0.78rem;font-weight:700;color:var(--mint);">Mint (×1)</div>
-        <div style="font-size:0.68rem;color:var(--petal);">Miracle-Gro · 5/27 seed</div>
-        <div style="font-size:0.68rem;color:var(--sage);">Aero Garden kit · POT ONLY</div>
-      </div>
-    </div>
-
-    <div style="background:rgba(192,57,43,0.15);border:1px solid rgba(192,57,43,0.4);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:0.8rem;">
-      🚨 <strong style="color:#ff8a7a;">Mint reminder:</strong> Keep in its own pot! It will aggressively spread via underground runners and take over any shared bed.
-    </div>
-  </div>
+  <table class="bed-info-table">
+    <thead><tr><th>Plant</th><th>Pot Size</th><th>Soil</th><th>Source</th><th>Water</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>🌶️ Red Bell Pepper</td><td>~5 gal</td><td>Ace potting soil</td><td>Maddie's dad</td><td>Every 2–3 days</td><td>Former tomato pot · full sun</td></tr>
+      <tr><td>🌶️ Big Jim Pepper</td><td>~5 gal</td><td>Ace potting soil</td><td>TBD</td><td>Every 2–3 days</td><td>⚠️ May need 7–10 gal as it grows</td></tr>
+      <tr><td>🌶️ BC Chiltepin</td><td>~5 gal</td><td>Ace potting soil</td><td>TBD</td><td>Every 2–3 days (drought tolerant once established)</td><td>Warmest spot possible · rare wild pepper · tiny fruit drops when ripe</td></tr>
+      <tr><td>🥒 Chimayó Zucchini</td><td>Large cloth pot</td><td>Ace potting soil</td><td>TBD</td><td>Daily in summer heat</td><td>NM heirloom · heavy feeder · water daily · switch to Tomato-Tone at first flowers</td></tr>
+      <tr><td>🌿 Puya (planned)</td><td>5 gal (planned)</td><td>TBD</td><td>TBD</td><td>Every 2–3 days</td><td>Not yet planted</td></tr>
+      <tr class="alert-row"><td>⚡ Fertilizer</td><td colspan="5">All pots: Miracle-Gro now → Tomato-Tone at first flowers. Pots need more frequent feeding than beds — nutrients leach with every watering.</td></tr>
+    </tbody>
+  </table>
+</div>
 
 </div>
 
@@ -2062,6 +2073,28 @@ function toggleWater(id, cb) {
 }
 
 // ═══════════════════════════════════════════════════════
+// PHOTO MANAGEMENT
+// ═══════════════════════════════════════════════════════
+function setPhoto(bedId, url) {
+  if (!url || !url.trim()) return;
+  const wrap = document.getElementById('photo-' + bedId);
+  if (!wrap) return;
+  wrap.innerHTML = `<img src="${url.trim()}" alt="${bedId} photo" onerror="this.parentNode.innerHTML='<div class=\\'bed-photo-placeholder\\'><div class=\\'ph-icon\\'>❌</div><div>Image failed to load — check the URL</div></div>'">`;
+  if (!state.photos) state.photos = {};
+  state.photos[bedId] = url.trim();
+  saveState(state);
+}
+
+function restorePhotos() {
+  if (!state.photos) return;
+  Object.entries(state.photos).forEach(([bedId, url]) => {
+    const input = document.getElementById('img-' + bedId);
+    if (input) input.value = url;
+    setPhoto(bedId, url);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
 // PLANTING LOG
 // ═══════════════════════════════════════════════════════
 function defaultLog() {
@@ -2407,6 +2440,7 @@ function renderUpcoming() {
 // ═══════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
   // Render fertilizer tasks
+  restorePhotos();
   renderFertTasks('mountain', 'fert-mountain');
   renderFertTasks('gate', 'fert-gate');
   renderFertTasks('rosebush', 'fert-rosebush');
